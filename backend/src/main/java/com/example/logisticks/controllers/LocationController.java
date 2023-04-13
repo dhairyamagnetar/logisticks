@@ -21,7 +21,6 @@ public class LocationController {
 
     @PostMapping("/location")
     public String saveLocation(@RequestBody Location location){
-        System.out.println(location);
         return lDAO.save(location) + " row(s) saved to the database.";
     }
 }

@@ -11,7 +11,26 @@ public class Address {
         this.locality = locality;
         this.locationId = locationId;
     }
+    public Address(int id, String houseNumber, String locality, int locationId) {
+        this.id = id;
+        this.houseNumber = houseNumber;
+        this.locality = locality;
+        this.locationId = locationId;
+    }
+
     public Address(){}
+
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
+    }
+
+    public void setLocality(String locality) {
+        this.locality = locality;
+    }
+
+    public void setLocationId(int locationId) {
+        this.locationId = locationId;
+    }
 
     public int getId() {
         return id;

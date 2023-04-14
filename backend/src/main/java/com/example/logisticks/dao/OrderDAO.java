@@ -1,2 +1,5 @@
-package com.example.logisticks.dao;public interface OrderDAO {
+package com.example.logisticks.dao;
+import com.example.logisticks.models.Order;
+public interface OrderDAO {
+    public boolean placeOrder(Order order);
 }

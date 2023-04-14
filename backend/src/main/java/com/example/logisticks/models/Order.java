@@ -14,6 +14,13 @@ public class Order {
         this.isFragile = isFragile;
         this.isExpressDelivery = isExpressDelivery;
     }
+
+    public Order(float deliveryRate, float weight, int isFragile, int isExpressDelivery) {
+        this.deliveryRate = deliveryRate;
+        this.weight = weight;
+        this.isFragile = isFragile;
+        this.isExpressDelivery = isExpressDelivery;
+    }
     public Order(){}
 
     public int getId() {
@@ -30,6 +37,18 @@ public class Order {
 
     public int isFragile() {
         return isFragile;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+    public void setIsFragile(int isFragile) {
+        this.isFragile = isFragile;
+    }
+
+    public void setIsExpressDelivery(int isExpressDelivery) {
+        this.isExpressDelivery = isExpressDelivery;
     }
 
     public int isExpressDelivery() {

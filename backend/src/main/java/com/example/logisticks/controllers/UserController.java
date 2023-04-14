@@ -1,8 +1,9 @@
 package com.example.logisticks.controllers;
 
 import com.example.logisticks.dao.UserDAO;
-import com.example.logisticks.models.SignInRequest;
-import com.example.logisticks.models.SignUpRequest;
+import com.example.logisticks.requests.SignInRequest;
+import com.example.logisticks.requests.SignUpRequest;
+import com.example.logisticks.responses.SignInResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,12 +15,26 @@ public class UserController {
     private UserDAO uDAO;
 
     @PostMapping("/auth/signup")
-    public boolean signUp(@RequestBody SignUpRequest req){
-        return uDAO.signUp(req.getPhoneNumber(), req.getPassword(), req.getName(), req.getHouseNumber(), req.getLocality(), req.getLocationId());
+    public SignInResponse signUp(@RequestBody SignUpRequest req){
+        SignInResponse res = new SignInResponse();
+        int key = uDAO.signUp(req.getPhoneNumber(), req.getPassword(), req.getName(), req.getHouseNumber(), req.getLocality(), req.getLocationId());
+        res.setKey(key);
+        res.setLogin(false);
+        if(key > 0){
+            res.setLogin(true);
+        }
+        return res;
     }
 
     @PostMapping("/auth/signin")
-    public boolean signIn(@RequestBody SignInRequest req){
-        return uDAO.signIn(req.getPhoneNumber(), req.getPassword());
+    public SignInResponse signIn(@RequestBody SignInRequest req){
+        SignInResponse res = new SignInResponse();
+        int key =  uDAO.signIn(req.getPhoneNumber(), req.getPassword());
+        res.setKey(key);
+        res.setLogin(false);
+        if(key > 0){
+            res.setLogin(true);
+        }
+        return res;
     }
 }

@@ -15,20 +15,22 @@ public class UserDAOImpl implements UserDAO{
     @Autowired
     private AddressDAO aDAO;
     @Override
-    public boolean signIn(String phoneNumber, String password) {
+    public int signIn(String phoneNumber, String password) {
         try{
             User user = jdbcTemplate.queryForObject("select * from user where phoneNumber = ?", new Object[]{phoneNumber}, new BeanPropertyRowMapper<User>(User.class));
             boolean auth =  user.matchPassword(password);
+            System.out.println(auth);
             if(auth){
-                Auth.setLoggedInUser(user);
-                return true;
-            }return false;
+                int key = (int) (Math.random()*89999999 + 10000000);
+                Auth.setKey(key);
+                return key;
+            }return 0;
         }catch(Exception e){
-            return false;
+            return 0;
         }
     }
     @Override
-    public boolean signUp(String phoneNumber,
+    public int signUp(String phoneNumber,
                           String password,
                           String name,
                           String houseNumber,
@@ -41,12 +43,13 @@ public class UserDAOImpl implements UserDAO{
             User user = new User(phoneNumber, name, addressId, 0, password);
             int rows = jdbcTemplate.update("insert into user(phoneNumber, name, addressId, isAdmin, passwordHash) values (?, ?, ?, ?, ?)", user.getPhoneNumber(), user.getName(), user.getAddressId(), user.getIsAdmin(), user.getPasswordHash());
             if(rows > 0){
-                Auth.setLoggedInUser(user);
-                return true;
+                int key = (int) (Math.random()*89999999 + 10000000);
+                Auth.setKey(key);
+                return key;
             }
         }catch(Exception e){
-            return false;
+            return 0;
         }
-        return false;
+        return 0;
     }
 }

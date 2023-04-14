@@ -1,4 +1,4 @@
-package com.example.logisticks.models;
+package com.example.logisticks.requests;
 
 public class SignInRequest {
     private String phoneNumber;

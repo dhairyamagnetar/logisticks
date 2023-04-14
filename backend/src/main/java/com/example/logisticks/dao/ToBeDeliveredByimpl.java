@@ -14,8 +14,9 @@ public class ToBeDeliveredByimpl implements ToBeDeliveredByDAO{
         return jdbcTemplate.update("insert into ToBeDeliveredBy(orderId, agentPhoneNumber) values (?, ?)", deliver.getOrderId(),deliver.getAgentPhoneNumber());
     }
 
+
     @Override
-    public int update(SentBy sentby, int orderId) {
+    public int update(ToBeDeliveredBy deliver, int orderId) {
         return jdbcTemplate.update("update ToBeDeliveredBy set agentPhoneNumber = ? where orderId = ?", deliver.getAgentPhoneNumber(), orderId);
     }
 }

@@ -4,10 +4,10 @@ public class Order {
     private int id;
     private float deliveryRate;
     private float weight;
-    private boolean isFragile;
-    private boolean isExpressDelivery;
+    private int isFragile;
+    private int isExpressDelivery;
 
-    public Order(int id, float deliveryRate, float weight, boolean isFragile, boolean isExpressDelivery) {
+    public Order(int id, float deliveryRate, float weight, int isFragile, int isExpressDelivery) {
         this.id = id;
         this.deliveryRate = deliveryRate;
         this.weight = weight;
@@ -28,11 +28,11 @@ public class Order {
         return weight;
     }
 
-    public boolean isFragile() {
+    public int isFragile() {
         return isFragile;
     }
 
-    public boolean isExpressDelivery() {
+    public int isExpressDelivery() {
         return isExpressDelivery;
     }
 

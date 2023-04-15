@@ -1,5 +1,6 @@
+@import './theme.scss';
 .App{
-    background-color: black;
+    background-color: $c10;
     .greeting{
         color : white;
     }

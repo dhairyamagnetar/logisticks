@@ -8,6 +8,20 @@ public class SignUpRequest {
     private String locality;
     private int locationId;
 
+    private String vehicleNumber;
+    private int salary;
+
+    public SignUpRequest(String phoneNumber, String password, String name, String houseNumber, String locality, int locationId, String vehicleNumber, int salary) {
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.name = name;
+        this.houseNumber = houseNumber;
+        this.locality = locality;
+        this.locationId = locationId;
+        this.vehicleNumber = vehicleNumber;
+        this.salary = salary;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -54,5 +68,21 @@ public class SignUpRequest {
 
     public void setLocationId(int locationId) {
         this.locationId = locationId;
+    }
+
+    public String getVehicleNumber() {
+        return vehicleNumber;
+    }
+
+    public void setVehicleNumber(String vehicleNumber) {
+        this.vehicleNumber = vehicleNumber;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
     }
 }

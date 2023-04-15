@@ -64,6 +64,18 @@ create table rate(
     CONSTRAINT PK_rate PRIMARY KEY (fromLocationId, toLocationId)
 );
 
+create table agent(
+    phoneNumber varchar(20) NOT NULL,
+    name varchar(100) NOT NULL,
+    addressId int NOT NULL,
+    isAdmin int NOT NULL,
+    passwordHash varchar(512) NOT NULL,
+    locationId int NOT NULL,
+    vehicleNumber varchar(20) NOT NULL,
+    salary int,
+    CONSTRAINT PK_User PRIMARY KEY (phoneNumber)
+);
+
 alter table rate
 add constraint FK_rate_fromLocationId
 foreign key (fromLocationId) references location(id);
@@ -104,7 +116,13 @@ alter table sentBy
 add constraint FK_sentBy_senderPhoneNumber
 foreign key (senderPhoneNumber) references user(phoneNumber);
 
+alter table agent
+add constraint FK_AgentAddress
+foreign key(addressId) references address(id);
 
+alter table agent
+add constraint FK_AgentLocation
+foreign key(locationId) references location(id);
 
 insert into location(district, city, state) values ('East Singhbhum', 'Jamshedpur', 'Jharkhand'), ('Muzaffarpur', 'Muzaffarpur', 'Bihar'), ('
 Kolkata', 'Kolkata', 'West Bengal');

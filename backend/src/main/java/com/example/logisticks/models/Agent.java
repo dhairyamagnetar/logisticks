@@ -28,4 +28,7 @@ public class Agent extends User{
     public void setSalary(int salary) {
         this.salary = salary;
     }
+    public void setLocationId(int locationId) {
+        this.locationId = locationId;
+    }
 }

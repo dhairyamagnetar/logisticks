@@ -27,7 +27,7 @@ create table location(
 );
 
 create table orders(
-     id INT NOT NULL,
+     id INT NOT NULL AUTO_INCREMENT,
      deliveryRate DOUBLE(10,2) NOT NULL,
      weight DOUBLE(10,2) NOT NULL,
      isFragile INT NOT NULL,

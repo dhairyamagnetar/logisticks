@@ -3,10 +3,10 @@ import java.time.LocalDateTime;
 import java.lang.Math;
 public class ToBeReceivedBy {
     private int orderId;
-    private LocalDateTime timeOfReceipt;
+    private String timeOfReceipt;
     private String receiverPhoneNumber;
     private int receptionOTP;
-    public ToBeReceivedBy(int orderId, LocalDateTime timeOfReceipt, String receiverPhoneNumber, int receptionOTP) {
+    public ToBeReceivedBy(int orderId, String timeOfReceipt, String receiverPhoneNumber, int receptionOTP) {
         this.orderId = orderId;
         this.timeOfReceipt = timeOfReceipt;
         this.receiverPhoneNumber = receiverPhoneNumber;
@@ -17,7 +17,7 @@ public class ToBeReceivedBy {
         return orderId;
     }
 
-    public LocalDateTime getTimeOfReceipt() {
+    public String getTimeOfReceipt() {
         return timeOfReceipt;
     }
 

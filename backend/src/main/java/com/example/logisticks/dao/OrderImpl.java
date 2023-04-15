@@ -1,7 +1,11 @@
 package com.example.logisticks.dao;
 
 import com.example.logisticks.models.Order;
+import com.example.logisticks.models.SentBy;
+import com.example.logisticks.models.ToBeReceivedBy;
+import com.example.logisticks.requests.OrderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,8 +14,12 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Repository
 public class OrderImpl implements OrderDAO{
@@ -24,15 +32,24 @@ public class OrderImpl implements OrderDAO{
     private OrderDAO oDAO;
 
     @Override
-    public boolean placeOrder( Order order_rec ) {
+    public boolean placeOrder(OrderRequest orderRequest) {
 
         try {
-            float deliveryRate = order_rec.getDeliveryRate();
-            int isFragile = order_rec.isFragile();
-            float weight = order_rec.getWeight();
-            int isExpressDelivery = order_rec.isExpressDelivery();
 
-            System.out.println(isFragile);
+//            System.out.println(isFragile);
+
+            float deliveryRate = orderRequest.getDeliveryRate();
+            float weight = orderRequest.getWeight();
+            int isFragile = orderRequest.getIsFragile();
+            int isExpressDelivery = orderRequest.getIsExpressDelivery();
+            String senderPhoneNumber = orderRequest.getSenderPhoneNumber();
+            String receiverPhoneNumber = orderRequest.getReceiverPhoneNumber();
+//            LocalDateTime timeOfReceipt = orderRequest.getTimeOfReceipt();
+            LocalDateTime orderTime;
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+//            formatter.format(date);
 
 
             Order order = new Order(deliveryRate, weight, isFragile, isExpressDelivery);
@@ -48,6 +65,38 @@ public class OrderImpl implements OrderDAO{
             }, generatedKeyHolder);
 
             order.setId(generatedKeyHolder.getKey().intValue());
+
+            SentBy sentby = new SentBy(senderPhoneNumber, order.getId(), formatter.format(date));
+            String sql_sentBy = "insert into sentBy(senderPhoneNumber, orderId, orderTime) values (?, ?, ?)";
+
+            try {
+                jdbcTemplate.update(con -> {
+                    PreparedStatement stmt = con.prepareStatement(sql_sentBy);
+                    stmt.setString(1,senderPhoneNumber);
+                    stmt.setInt(2, order.getId());
+                    stmt.setString(3, formatter.format(date));
+                    return stmt;
+                });
+            } catch (Exception e) {
+                System.out.println(e);
+                return false;
+            }
+
+            ToBeReceivedBy toBeReceivedBy = new ToBeReceivedBy(order.getId(), "", receiverPhoneNumber, -1);
+
+            String sql_rec = "insert into toBeReceivedBy(orderId, receiverPhoneNumber) values (?, ?)";
+
+            try {
+                jdbcTemplate.update(con -> {
+                    PreparedStatement stmt = con.prepareStatement(sql_sentBy);
+                    stmt.setInt(1,order.getId());
+                    stmt.setString(2, receiverPhoneNumber);
+                    return stmt;
+                });
+            } catch (Exception e) {
+                System.out.println(e);
+                return false;
+            }
             return true;
         } catch (Exception e) {
             System.out.print(e);

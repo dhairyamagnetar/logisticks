@@ -1,0 +1,23 @@
+@import '../../theme.scss';
+.Login{
+    background-color: $c10;
+    .hero{
+        min-height: 80vh;
+        margin : 15vh 5vw;
+        .heroimg{
+            width: 50%;
+            aspect-ratio: 1;
+            margin-top: 10%;
+        }
+        .blackcol{
+            background-color : $c4;
+            border-radius: 50px;
+            color : white;
+            .message{
+                background-color: rgb(255, 217, 0);
+                color : black;
+                border-radius: 15px;
+            }
+        }
+    }
+}

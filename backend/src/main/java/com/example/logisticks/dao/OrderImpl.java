@@ -32,9 +32,6 @@ public class OrderImpl implements OrderDAO{
             float weight = order_rec.getWeight();
             int isExpressDelivery = order_rec.isExpressDelivery();
 
-            System.out.println(isFragile);
-
-
             Order order = new Order(deliveryRate, weight, isFragile, isExpressDelivery);
             String sql = "insert into orders(deliveryRate, weight, isFragile, isExpressDelivery) values(?, ?, ?, ?)";
             GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
@@ -46,7 +43,6 @@ public class OrderImpl implements OrderDAO{
                 stmt.setInt(4, isExpressDelivery);
                 return stmt;
             }, generatedKeyHolder);
-
             order.setId(generatedKeyHolder.getKey().intValue());
             return true;
         } catch (Exception e) {

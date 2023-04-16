@@ -1,7 +1,7 @@
 create database logisticks;
 use logisticks;
 
-create table user(
+create table users(
     phoneNumber varchar(20) NOT NULL,
     name varchar(100) NOT NULL,
     addressId int NOT NULL,
@@ -27,7 +27,7 @@ create table location(
 );
 
 create table orders(
-     id INT NOT NULL AUTO_INCREMENT,
+     id INT AUTO_INCREMENT,
      deliveryRate DOUBLE(10,2) NOT NULL,
      weight DOUBLE(10,2) NOT NULL,
      isFragile INT NOT NULL,
@@ -43,7 +43,7 @@ create table orderStatus (
 );
 
 create table sentBy (
-    orderId INT NOT NULL ,
+    orderId INT NOT NULL,
     senderPhoneNumber VARCHAR(20) NOT NULL,
     orderTime DATETIME,
     CONSTRAINT PK_orderId PRIMARY KEY (orderId)
@@ -90,13 +90,13 @@ foreign key (orderId) references orders(id);
 
 alter table toBeReceivedBy
 add constraint FK_toBeReceivedBy_receiverPhoneNumber
-foreign key (receiverPhoneNumber) references user(phoneNumber);
+foreign key (receiverPhoneNumber) references users(phoneNumber);
 
 alter table address
 add constraint FK_AddressLocation
 foreign key(locationId) references location(id);
 
-alter table user
+alter table users
 add constraint FK_UserAddress
 foreign key(addressId) references address(id);
 
@@ -114,7 +114,7 @@ foreign key (orderId) references orders(id);
 
 alter table sentBy
 add constraint FK_sentBy_senderPhoneNumber
-foreign key (senderPhoneNumber) references user(phoneNumber);
+foreign key (senderPhoneNumber) references users(phoneNumber);
 
 alter table agent
 add constraint FK_AgentAddress

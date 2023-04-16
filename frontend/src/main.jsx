@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Auth from './Screens/Auth/Auth'
 
 import { AuthProvider } from './context/Auth'
+import Orders from './Screens/Orders/Orders'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Routes>
           <Route path='/' element={<App />} />
           <Route path='/auth' element={<Auth />} />
+          <Route path="/orders" element={<Orders/>}/>
         </Routes>
       </BrowserRouter>
     </AuthProvider>

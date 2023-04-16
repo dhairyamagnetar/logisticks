@@ -1,6 +1,8 @@
+import { useNavigate } from 'react-router-dom'
 import './App.scss'
 
 function App() {
+  const navigate = useNavigate();
   return (
     <div className="App">
       <div className="hero p-3 row">
@@ -17,7 +19,11 @@ function App() {
               <button className="btn btn-light m-2">
               <b>Send Shipment</b>
               </button>
-              <button className="btn btn-warning m-2">
+              <button className="btn btn-warning m-2"
+              onClick={()=>{
+                navigate("/orders")
+              }}
+              >
               <b>View Past Orders</b>
               </button>
           </div>

@@ -22,7 +22,8 @@ public class UserDAOImpl implements UserDAO{
             boolean auth =  user.matchPassword(password);
             if(auth){
                 int key = (int) (Math.random()*89999999 + 10000000);
-                Auth.setKey(key);
+                Auth.mp.put(phoneNumber, key);
+                Auth.isAdmin.put(phoneNumber, user.getIsAdmin());
                 return key;
             }return 0;
         }catch(Exception e){
@@ -52,7 +53,7 @@ public class UserDAOImpl implements UserDAO{
                 int rows = jdbcTemplate.update("update user set name = ?, addressId = ?, isAdmin = ?, passwordHash = ? where phoneNumber = ?", user.getName(), user.getAddressId(), user.getIsAdmin(), user.getPasswordHash(), user.getPhoneNumber());
                 if(rows > 0){
                     int key = (int) (Math.random()*89999999 + 10000000);
-                    Auth.setKey(key);
+                    Auth.mp.put(phoneNumber, key);
                     return key;
                 }
             }catch(Exception e){
@@ -67,7 +68,7 @@ public class UserDAOImpl implements UserDAO{
                 int rows = jdbcTemplate.update("insert into user(phoneNumber, name, addressId, isAdmin, passwordHash) values (?, ?, ?, ?, ?)", user.getPhoneNumber(), user.getName(), user.getAddressId(), user.getIsAdmin(), user.getPasswordHash());
                 if(rows > 0){
                     int key = (int) (Math.random()*89999999 + 10000000);
-                    Auth.setKey(key);
+                    Auth.mp.put(phoneNumber, key);
                     return key;
                 }
             }catch(Exception e) {

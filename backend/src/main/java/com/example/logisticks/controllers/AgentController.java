@@ -5,10 +5,11 @@ import com.example.logisticks.requests.SignInRequest;
 import com.example.logisticks.requests.SignUpRequest;
 import com.example.logisticks.responses.SignInResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
+@CrossOrigin
 @RestController
 public class AgentController {
     @Autowired

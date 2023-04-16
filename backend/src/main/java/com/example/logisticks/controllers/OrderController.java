@@ -6,7 +6,7 @@ import com.example.logisticks.requests.OrderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
-
+@CrossOrigin
 @RestController
 public class OrderController {
     @Autowired

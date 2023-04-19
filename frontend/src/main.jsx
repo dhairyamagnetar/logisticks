@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import Navbar from './Components/Navbar/Navbar'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Auth from './Screens/Auth/Auth'
-
+import AgentAuth from './Agent/AgentAuth'
 import { AuthProvider } from './context/Auth'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -17,6 +17,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Routes>
           <Route path='/' element={<App />} />
           <Route path='/auth' element={<Auth />} />
+          <Route path='/agentauth' element={<AgentAuth />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

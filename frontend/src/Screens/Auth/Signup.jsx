@@ -26,7 +26,7 @@ const Signup = (props) => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'http://127.0.0.1:8080/location',
+            url: `{process.env.REACT_APP_API_URL}`+'/location',
             headers: {
                 'Content-Type': 'application/json',
             },

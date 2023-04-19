@@ -5,6 +5,7 @@ public class OrderStatus {
     public static enum Status{
         DISPATCHED,
         ARRIVED,
+        OUTFORDELIVERY,
         DELIVERED
     }
     private int orderId;

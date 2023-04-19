@@ -1,5 +1,8 @@
 package com.example.logisticks.models;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class Rate {
     private int fromLocationId;
     private int toLocationId;

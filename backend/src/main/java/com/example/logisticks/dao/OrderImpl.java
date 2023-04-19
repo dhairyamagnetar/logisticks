@@ -1,9 +1,8 @@
 package com.example.logisticks.dao;
 
-import com.example.logisticks.models.Order;
-import com.example.logisticks.models.SentBy;
-import com.example.logisticks.models.ToBeReceivedBy;
+import com.example.logisticks.models.*;
 import com.example.logisticks.requests.OrderRequest;
+import com.example.logisticks.responses.OrderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.context.annotation.Lazy;
@@ -31,8 +30,28 @@ public class OrderImpl implements OrderDAO{
     @Lazy
     private OrderDAO oDAO;
 
+    @Autowired
+    private UserDAO uDAO;
+
+    @Autowired
+    private RateDAO rDAO;
+
+    private boolean exists(String phoneNumber) {
+        int found = 0;
+        try{
+            User user = jdbcTemplate.queryForObject("select * from user where phoneNumber=?",new Object[]{phoneNumber}, new BeanPropertyRowMapper<User>(User.class));
+            if(user.getPhoneNumber().equals(phoneNumber)) found++;
+        }catch(Exception e){
+            System.out.println("Some error occurred while performing the checks.");
+            System.out.println(e);
+        }
+        return (found > 0 ? true : false);
+    }
+
     @Override
-    public boolean placeOrder(OrderRequest orderRequest) {
+    public OrderResponse placeOrder(OrderRequest orderRequest) {
+
+        OrderResponse respone = new OrderResponse();
 
         try {
 
@@ -55,15 +74,42 @@ public class OrderImpl implements OrderDAO{
             Order order = new Order(deliveryRate, weight, isFragile, isExpressDelivery);
             String sql = "insert into orders(deliveryRate, weight, isFragile, isExpressDelivery) values(?, ?, ?, ?)";
             GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
-            jdbcTemplate.update(conn -> {
-                PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                stmt.setFloat(1, deliveryRate);
-                stmt.setFloat(2, weight);
-                stmt.setInt(3, isFragile);
-                stmt.setInt(4, isExpressDelivery);
-                return stmt;
-            }, generatedKeyHolder);
-            order.setId(generatedKeyHolder.getKey().intValue());
+
+            // signup the users
+
+//            uDAO.signUp(senderPhoneNumber, "", "", "", "", -1);
+//            uDAO.signUp(receiverPhoneNumber, "", "", "", "", -1);
+
+            if (!exists(senderPhoneNumber)) {
+                respone.setMessage("User is not logged in!");
+                respone.setPrice(-1);
+                respone.setStatus(false);
+                return respone;
+            }
+
+            if (!exists(receiverPhoneNumber)) {
+                uDAO.signUp(receiverPhoneNumber, "", "", "", "", orderRequest.getReceiverLocationId());
+            }
+
+            try {
+                jdbcTemplate.update(conn -> {
+                    PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                    stmt.setFloat(1, deliveryRate);
+                    stmt.setFloat(2, weight);
+                    stmt.setInt(3, isFragile);
+                    stmt.setInt(4, isExpressDelivery);
+                    return stmt;
+                }, generatedKeyHolder);
+                order.setId(generatedKeyHolder.getKey().intValue());
+            } catch (Exception e) {
+                System.out.println("Error in place order");
+                System.out.println(e);
+                respone.setMessage("Error in placing order!");
+                respone.setPrice(-1);
+                respone.setStatus(false);
+                return respone;
+            }
+
 
             SentBy sentby = new SentBy(senderPhoneNumber, order.getId(), formatter.format(date));
             String sql_sentBy = "insert into sentBy(senderPhoneNumber, orderId, orderTime) values (?, ?, ?)";
@@ -77,9 +123,16 @@ public class OrderImpl implements OrderDAO{
                     return stmt;
                 });
             } catch (Exception e) {
+                jdbcTemplate.update("delete from orders where id = ?", order.getId());
+                System.out.println("Error in sent by");
                 System.out.println(e);
-                return false;
+                respone.setMessage("Error in setting sent by!");
+                respone.setPrice(-1);
+                respone.setStatus(false);
+                return respone;
             }
+
+
 
             ToBeReceivedBy toBeReceivedBy = new ToBeReceivedBy(order.getId(), "", receiverPhoneNumber, -1);
 
@@ -87,19 +140,31 @@ public class OrderImpl implements OrderDAO{
 
             try {
                 jdbcTemplate.update(con -> {
-                    PreparedStatement stmt = con.prepareStatement(sql_sentBy);
+                    PreparedStatement stmt = con.prepareStatement(sql_rec);
                     stmt.setInt(1,order.getId());
                     stmt.setString(2, receiverPhoneNumber);
                     return stmt;
                 });
             } catch (Exception e) {
+                System.out.println("Error in received by");
                 System.out.println(e);
-                return false;
+                jdbcTemplate.update("delete from orders where id = ?", order.getId());
+                jdbcTemplate.update("delete from sentBy where orderId = ?", order.getId());
+                respone.setMessage("Error in received by function!");
+                respone.setPrice(-1);
+                respone.setStatus(false);
+                return respone;
             }
-            return true;
+            respone.setMessage("Successfully placed the order!");
+            respone.setPrice(rDAO.calculateRate(orderRequest));
+            respone.setStatus(true);
+            return respone;
         } catch (Exception e) {
             System.out.print(e);
-            return false;
+            respone.setMessage("Some error occurred in placing order!");
+            respone.setPrice(-1);
+            respone.setStatus(false);
+            return respone;
         }
     }
 }

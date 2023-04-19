@@ -43,6 +43,7 @@ public class UserDAOImpl implements UserDAO{
             if(user.getPhoneNumber().equals(phoneNumber)) found++;
         }catch(Exception e){
             System.out.println("Some error occurred while performing the checks.");
+            System.out.println(e);
         }
         if(found > 0){
             try{
@@ -57,6 +58,7 @@ public class UserDAOImpl implements UserDAO{
                 }
             }catch(Exception e){
                 System.out.println(e.getMessage());
+
                 return 0;
             }
         }else {

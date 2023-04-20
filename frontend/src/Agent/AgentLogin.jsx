@@ -2,7 +2,7 @@ import './Auth.scss'
 import { useContext, useState } from 'react';
 import { sha256 } from 'crypto-hash';
 import axios from 'axios';
-import { AuthContext } from '../../context/Auth';
+import { AuthContext } from '../context/Auth';
 import { useNavigate } from 'react-router-dom';
 const Login = (props) => {
     const [phone, setPhone] = useState(null)
@@ -20,7 +20,7 @@ const Login = (props) => {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `{process.env.REACT_APP_API_URL}`+'auth/signin',
+            url: 'http://127.0.0.1:8080/auth/signin',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -50,6 +50,7 @@ const Login = (props) => {
                 <div className="img">
                     <img src='/courier.png' className='heroimg' />
                 </div>
+                
                 <div className="switchbtn">
                     <button className="btn btn-dark m-2"
                         onClick={props.switch}

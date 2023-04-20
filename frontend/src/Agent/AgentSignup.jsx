@@ -2,7 +2,7 @@ import './Auth.scss'
 import { useContext, useEffect, useState } from 'react';
 import { sha256 } from 'crypto-hash';
 import axios from 'axios';
-import { AuthContext } from '../../context/Auth';
+import { AuthContext } from '../context/Auth';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useNavigate } from 'react-router-dom';
 
@@ -26,7 +26,7 @@ const Signup = (props) => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `{process.env.REACT_APP_API_URL}`+'/location',
+            url: 'http://127.0.0.1:8080/location',
             headers: {
                 'Content-Type': 'application/json',
             },

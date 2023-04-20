@@ -7,7 +7,7 @@ import com.example.logisticks.responses.OrderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
-
+@CrossOrigin
 @RestController
 @CrossOrigin
 public class OrderController {

@@ -4,9 +4,11 @@ import com.example.logisticks.dao.UserDAO;
 import com.example.logisticks.requests.SignInRequest;
 import com.example.logisticks.requests.SignUpRequest;
 import com.example.logisticks.responses.SignInResponse;
+import com.example.logisticks.responses.UserDeetResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 @CrossOrigin
 public class UserController {
@@ -24,7 +26,6 @@ public class UserController {
         }
         return res;
     }
-
     @PostMapping("/auth/signin")
     public SignInResponse signIn(@RequestBody SignInRequest req){
         SignInResponse res = new SignInResponse();
@@ -37,4 +38,8 @@ public class UserController {
         return res;
     }
 
+    @GetMapping("/user/{phoneNumber}")
+    public UserDeetResponse getUserLocation(@PathVariable String phoneNumber){
+        return uDAO.getUserLocation(phoneNumber);
+    }
 }

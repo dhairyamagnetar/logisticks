@@ -24,7 +24,8 @@ public class AgentDAOImpl implements AgentDAO{
             boolean auth =  agent.matchPassword(password);
             if(auth){
                 int key = (int) (Math.random()*89999999 + 10000000);
-                Auth.setKey(key);
+                Auth.mp.put(phoneNumber, key);
+                Auth.isAdmin.put(phoneNumber, agent.getIsAdmin());
                 return key;
             }return 0;
         }catch(Exception e){
@@ -40,7 +41,7 @@ public class AgentDAOImpl implements AgentDAO{
             int rows = jdbcTemplate.update("insert into agent(phoneNumber, name, addressId, isAdmin, passwordHash, locationId, vehicleNumber, salary) values (?, ?, ?, ?, ?, ?, ?, ?)", agent.getPhoneNumber(), agent.getName(), agent.getAddressId(), agent.getIsAdmin(), agent.getPasswordHash(), agent.getLocationId(), agent.getVehicleNumber(), agent.getSalary());
             if(rows > 0){
                 int key = (int) (Math.random()*89999999 + 10000000);
-                Auth.setKey(key);
+                Auth.mp.put(phoneNumber, key);
                 return key;
             }
         }catch(Exception e){

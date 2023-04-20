@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 public class OrderController {
     @Autowired
     private OrderDAO oDAO;

@@ -1,6 +1,7 @@
 package com.example.logisticks.dao;
 import com.example.logisticks.models.Address;
 import com.example.logisticks.models.User;
+import com.example.logisticks.responses.UserDeetResponse;
 import com.example.logisticks.utilities.Auth;
 import org.apache.tomcat.Jar;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,7 @@ public class UserDAOImpl implements UserDAO{
             if(user.getPhoneNumber().equals(phoneNumber)) found++;
         }catch(Exception e){
             System.out.println("Some error occurred while performing the checks.");
+            System.out.println(e);
         }
         if(found > 0){
             try{
@@ -58,6 +60,7 @@ public class UserDAOImpl implements UserDAO{
                 }
             }catch(Exception e){
                 System.out.println(e.getMessage());
+
                 return 0;
             }
         }else {
@@ -77,6 +80,34 @@ public class UserDAOImpl implements UserDAO{
             }
         }
         return 0;
+    }
+
+    @Override
+    public UserDeetResponse getUserLocation(String phoneNumber) {
+        UserDeetResponse res = new UserDeetResponse();
+        res.setStatus(false);
+        try{
+            User user = jdbcTemplate.queryForObject("select * from user where phoneNumber=?",new Object[]{phoneNumber}, new BeanPropertyRowMapper<User>(User.class));
+            assert user != null;
+            if(user.getPhoneNumber().equals(phoneNumber)){
+                int addressId = user.getAddressId();
+                try{
+                    Address address = jdbcTemplate.queryForObject("select * from address where id = ?", new Object[]{addressId}, new BeanPropertyRowMapper<Address>(Address.class));
+
+                    assert address != null;
+                    if(address.getId() == addressId){
+                        res.setStatus(true);
+                        res.setLocationId(address.getLocationId());
+                        res.setPhoneNumber(phoneNumber);
+                    }
+                }catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return res;
     }
 
     @Override

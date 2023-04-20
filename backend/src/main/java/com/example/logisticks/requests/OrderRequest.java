@@ -83,6 +83,27 @@ public class OrderRequest {
     private int isExpressDelivery;
     private String senderPhoneNumber;
 
-//    private LocalDateTime timeOfReceipt;
+    public int getSenderLocationId() {
+        return senderLocationId;
+    }
+
+    public int getReceiverLocationId() {
+        return receiverLocationId;
+    }
+
+    public void setSenderLocationId(int senderLocationId) {
+        this.senderLocationId = senderLocationId;
+    }
+
+    public void setReceiverLocationId(int receiverLocationId) {
+        this.receiverLocationId = receiverLocationId;
+    }
+
+    //    private LocalDateTime timeOfReceipt;
     private String receiverPhoneNumber;
+
+    private int senderLocationId;
+    private int receiverLocationId;
+
+
 }

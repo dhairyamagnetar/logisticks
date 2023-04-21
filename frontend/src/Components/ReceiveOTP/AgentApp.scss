@@ -1,5 +1,5 @@
-@import '../theme.scss';
-.AgentLogin{
+@import '../../theme.scss';
+.App{
     background-color: $c10;
     .hero{
         min-height: 80vh;
@@ -13,11 +13,6 @@
             background-color : $c4;
             border-radius: 50px;
             color : white;
-            .message{
-                background-color: rgb(255, 217, 0);
-                color : black;
-                border-radius: 15px;
-            }
         }
     }
 }

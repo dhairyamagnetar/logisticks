@@ -7,7 +7,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { useNavigate } from 'react-router-dom';
 
 
-const Signup = (props) => {
+const AgentSignup = (props) => {
     const [phone, setPhone] = useState(null)
     const [passhash, setPasshash] = useState(null)
     const [name, setName] = useState(null)
@@ -82,7 +82,7 @@ const Signup = (props) => {
                 console.log(error);
             });
     }
-    return <div className="Login">
+    return <div className="AgentLogin">
         <div className="hero p-3 row">
             <div className="col-12 col-md-6 text-center">
                 <div className="img">
@@ -90,7 +90,14 @@ const Signup = (props) => {
                 </div>
                 <div className="switchbtn">
                     <button className="btn btn-dark m-2"
-                        onClick={props.switch}
+                        onClick={props.userTypeSwitcher}
+                    >
+                        <b>Switch to User</b>
+                    </button>
+                </div>
+                <div className="switchbtn">
+                    <button className="btn btn-dark m-2"
+                        onClick={props.authSwitcher}
                     >
                         <b>Log In Instead</b>
                     </button>
@@ -98,7 +105,7 @@ const Signup = (props) => {
             </div>
             <div className="col-12 col-md-6 p-5 blackcol d-flex flex-column align-items-center">
                 <div className="h2 text-center">
-                    Sign Up
+                   Agent Sign Up
                 </div>
                 <div className="loginform text-center">
                     <div className="m-2">
@@ -179,4 +186,4 @@ const Signup = (props) => {
     </div>
 }
 
-export default Signup;
+export default AgentSignup;

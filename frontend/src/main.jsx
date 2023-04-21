@@ -6,9 +6,8 @@ import 'bootstrap/dist/css/bootstrap.css'
 import Navbar from './Components/Navbar/Navbar'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Auth from './Screens/Auth/Auth'
-import AgentAuth from './Agent/AgentAuth'
 import { AuthProvider } from './context/Auth'
-
+import AgentApp from './Components/ReceiveOTP/AgentApp'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthProvider>
@@ -17,7 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Routes>
           <Route path='/' element={<App />} />
           <Route path='/auth' element={<Auth />} />
-          <Route path='/agentauth' element={<AgentAuth />} />
+          <Route path='/agent' element={<AgentApp />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

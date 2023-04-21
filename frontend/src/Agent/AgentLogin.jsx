@@ -4,7 +4,7 @@ import { sha256 } from 'crypto-hash';
 import axios from 'axios';
 import { AuthContext } from '../context/Auth';
 import { useNavigate } from 'react-router-dom';
-const Login = (props) => {
+const AgentLogin = (props) => {
     const [phone, setPhone] = useState(null)
     const [passhash, setPasshash] = useState(null)
     const [message, setMessage] = useState(null)
@@ -44,16 +44,22 @@ const Login = (props) => {
                 console.log(error);
             });
     }
-    return <div className="Login">
+    return <div className="AgentLogin">
         <div className="hero p-3 row">
             <div className="col-12 col-md-6 text-center">
                 <div className="img">
                     <img src='/courier.png' className='heroimg' />
                 </div>
-                
                 <div className="switchbtn">
                     <button className="btn btn-dark m-2"
-                        onClick={props.switch}
+                        onClick={props.userTypeSwitcher}
+                    >
+                        <b>Switch to User</b>
+                    </button>
+                </div>
+                <div className="switchbtn">
+                    <button className="btn btn-dark m-2"
+                        onClick={props.authSwitcher}
                     >
                         <b>Sign Up Instead</b>
                     </button>
@@ -61,7 +67,7 @@ const Login = (props) => {
             </div>
             <div className="col-12 col-md-6 p-5 blackcol d-flex flex-column align-items-center">
                 <div className="h2 text-center">
-                    Log In
+                    Agent Log In
                 </div>
                 <div className="loginform text-center">
                     <div className="m-2">
@@ -99,4 +105,4 @@ const Login = (props) => {
         </div>
     </div>
 }
-export default Login;
+export default AgentLogin;

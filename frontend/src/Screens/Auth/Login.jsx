@@ -20,12 +20,13 @@ const Login = (props) => {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `{process.env.REACT_APP_API_URL}`+'auth/signin',
+            url: `http://127.0.0.1:8080/` + 'auth/signin',
             headers: {
                 'Content-Type': 'application/json',
             },
             data: data
         };
+        console.log(config);
         axios.request(config)
             .then((response) => {
                 var data = response.data;

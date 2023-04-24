@@ -18,6 +18,8 @@ public class UserDAOImpl implements UserDAO{
     private AddressDAO aDAO;
     @Override
     public int signIn(String phoneNumber, String password) {
+        System.out.println(phoneNumber);
+        System.out.println(password);
         try{
             User user = jdbcTemplate.queryForObject("select * from user where phoneNumber = ?", new Object[]{phoneNumber}, new BeanPropertyRowMapper<User>(User.class));
             boolean auth =  user.matchPassword(password);
@@ -28,6 +30,7 @@ public class UserDAOImpl implements UserDAO{
                 return key;
             }return 0;
         }catch(Exception e){
+            System.out.println(e);
             return 0;
         }
     }

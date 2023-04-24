@@ -36,6 +36,9 @@ public class OrderImpl implements OrderDAO{
     @Autowired
     private RateDAO rDAO;
 
+    @Autowired
+    private orderStatusDAO osDAO;
+
     private boolean exists(String phoneNumber) {
         int found = 0;
         try{
@@ -143,13 +146,15 @@ public class OrderImpl implements OrderDAO{
 
             ToBeReceivedBy toBeReceivedBy = new ToBeReceivedBy(order.getId(), "", receiverPhoneNumber, -1);
 
-            String sql_rec = "insert into toBeReceivedBy(orderId, receiverPhoneNumber) values (?, ?)";
+            String sql_rec = "insert into toBeReceivedBy(orderId, receiverPhoneNumber,receptionOTP) values (?, ?, ?)";
 
             try {
                 jdbcTemplate.update(con -> {
                     PreparedStatement stmt = con.prepareStatement(sql_rec);
                     stmt.setInt(1,order.getId());
                     stmt.setString(2, receiverPhoneNumber);
+                    int otp = (int)Math.floor((Math.random()*(9999-1000+1) + 1000));
+                    stmt.setInt(3,otp);
                     return stmt;
                 });
             } catch (Exception e) {
@@ -165,6 +170,28 @@ public class OrderImpl implements OrderDAO{
             respone.setMessage("Successfully placed the order!");
             respone.setPrice(rate);
             respone.setStatus(true);
+
+            try {
+                OrderStatus os = new OrderStatus(order.getId(), -1, OrderStatus.Status.PLACED);
+                String sql_os = "insert into orderstatus values(?,?,?)";
+
+                jdbcTemplate.update(con -> {
+                   PreparedStatement stmt = con.prepareStatement(sql_os);
+                   stmt.setInt(1,order.getId());
+                   stmt.setInt(2,orderRequest.getSenderLocationId());
+                   stmt.setInt(3, 0);
+                   return stmt;
+                });
+            } catch (Exception e) {
+                System.out.println(e);
+                respone.setMessage("Could not add order status");
+                respone.setPrice(rate);
+                respone.setStatus(false);
+                jdbcTemplate.update("delete from orders where id = ?", order.getId());
+                jdbcTemplate.update("delete from sentBy where orderId = ?", order.getId());
+                jdbcTemplate.update("delete from receivedby where orderId = ?", order.getId());
+            }
+
             return respone;
         } catch (Exception e) {
             System.out.print(e);

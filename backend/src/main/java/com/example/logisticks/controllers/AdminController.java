@@ -1,2 +1,4 @@
-package com.example.logisticks.controllers;public class AdminController {
+package com.example.logisticks.controllers;
+
+public class AdminController {
 }

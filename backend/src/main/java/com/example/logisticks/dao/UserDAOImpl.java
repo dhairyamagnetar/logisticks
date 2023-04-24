@@ -1,6 +1,7 @@
 package com.example.logisticks.dao;
 import com.example.logisticks.models.Address;
 import com.example.logisticks.models.User;
+import com.example.logisticks.responses.UserDeetResponse;
 import com.example.logisticks.utilities.Auth;
 import org.apache.tomcat.Jar;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +18,19 @@ public class UserDAOImpl implements UserDAO{
     private AddressDAO aDAO;
     @Override
     public int signIn(String phoneNumber, String password) {
+        System.out.println(phoneNumber);
+        System.out.println(password);
         try{
             User user = jdbcTemplate.queryForObject("select * from user where phoneNumber = ?", new Object[]{phoneNumber}, new BeanPropertyRowMapper<User>(User.class));
             boolean auth =  user.matchPassword(password);
             if(auth){
                 int key = (int) (Math.random()*89999999 + 10000000);
-                Auth.setKey(key);
+                Auth.mp.put(phoneNumber, key);
+                Auth.isAdmin.put(phoneNumber, user.getIsAdmin());
                 return key;
             }return 0;
         }catch(Exception e){
+            System.out.println(e);
             return 0;
         }
     }
@@ -53,7 +58,7 @@ public class UserDAOImpl implements UserDAO{
                 int rows = jdbcTemplate.update("update user set name = ?, addressId = ?, isAdmin = ?, passwordHash = ? where phoneNumber = ?", user.getName(), user.getAddressId(), user.getIsAdmin(), user.getPasswordHash(), user.getPhoneNumber());
                 if(rows > 0){
                     int key = (int) (Math.random()*89999999 + 10000000);
-                    Auth.setKey(key);
+                    Auth.mp.put(phoneNumber, key);
                     return key;
                 }
             }catch(Exception e){
@@ -69,7 +74,7 @@ public class UserDAOImpl implements UserDAO{
                 int rows = jdbcTemplate.update("insert into user(phoneNumber, name, addressId, isAdmin, passwordHash) values (?, ?, ?, ?, ?)", user.getPhoneNumber(), user.getName(), user.getAddressId(), user.getIsAdmin(), user.getPasswordHash());
                 if(rows > 0){
                     int key = (int) (Math.random()*89999999 + 10000000);
-                    Auth.setKey(key);
+                    Auth.mp.put(phoneNumber, key);
                     return key;
                 }
             }catch(Exception e) {
@@ -78,6 +83,34 @@ public class UserDAOImpl implements UserDAO{
             }
         }
         return 0;
+    }
+
+    @Override
+    public UserDeetResponse getUserLocation(String phoneNumber) {
+        UserDeetResponse res = new UserDeetResponse();
+        res.setStatus(false);
+        try{
+            User user = jdbcTemplate.queryForObject("select * from user where phoneNumber=?",new Object[]{phoneNumber}, new BeanPropertyRowMapper<User>(User.class));
+            assert user != null;
+            if(user.getPhoneNumber().equals(phoneNumber)){
+                int addressId = user.getAddressId();
+                try{
+                    Address address = jdbcTemplate.queryForObject("select * from address where id = ?", new Object[]{addressId}, new BeanPropertyRowMapper<Address>(Address.class));
+
+                    assert address != null;
+                    if(address.getId() == addressId){
+                        res.setStatus(true);
+                        res.setLocationId(address.getLocationId());
+                        res.setPhoneNumber(phoneNumber);
+                    }
+                }catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return res;
     }
 
     @Override

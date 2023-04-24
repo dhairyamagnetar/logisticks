@@ -8,8 +8,9 @@ import com.example.logisticks.responses.UserDeetResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+
 @RestController
+@CrossOrigin
 public class UserController {
     @Autowired
     private UserDAO uDAO;

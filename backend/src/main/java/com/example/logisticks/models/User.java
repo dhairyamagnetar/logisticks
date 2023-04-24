@@ -21,6 +21,7 @@ public class User {
     public User() {}
 
     public boolean matchPassword(String password){
+        System.out.println("Passwordhash : " + passwordHash);
         return this.passwordHash.equals(password);
     }
     public String getPhoneNumber() {

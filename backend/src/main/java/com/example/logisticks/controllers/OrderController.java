@@ -6,11 +6,10 @@ import com.example.logisticks.requests.OrderRequest;
 import com.example.logisticks.responses.OrderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
-@CrossOrigin
 @RestController
+@CrossOrigin
 public class OrderController {
     @Autowired
     private OrderDAO oDAO;

@@ -20,8 +20,8 @@ public class RateDAOImpl implements RateDAO {
         try {
             System.out.println(sql);
             Rate rate = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<Rate>(Rate.class));
-
-            price += rate.getBaseRate();
+            orderRequest.setDeliveryRate(Math.min(rate.getBaseRate(),(rate.getBaseRate())*(orderRequest.getWeight())));
+            price += Math.min(rate.getBaseRate(),(rate.getBaseRate())*(orderRequest.getWeight()));
         } catch (Exception e) {
             System.out.println(e);
             System.out.println(price);

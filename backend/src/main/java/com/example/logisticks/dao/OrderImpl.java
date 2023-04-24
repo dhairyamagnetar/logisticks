@@ -55,6 +55,13 @@ public class OrderImpl implements OrderDAO{
 
         OrderResponse respone = new OrderResponse();
 
+        float rate = 0;
+        try {
+            rate = rDAO.calculateRate(orderRequest);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
         try {
 
 //            System.out.println(isFragile);
@@ -158,7 +165,7 @@ public class OrderImpl implements OrderDAO{
                 return respone;
             }
             respone.setMessage("Successfully placed the order!");
-            respone.setPrice(rDAO.calculateRate(orderRequest));
+            respone.setPrice(rate);
             respone.setStatus(true);
             return respone;
         } catch (Exception e) {

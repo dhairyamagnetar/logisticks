@@ -1,11 +1,11 @@
 package com.example.logisticks.models;
 
 public class Order {
-    private int id;
-    private float deliveryRate;
-    private float weight;
-    private int isFragile;
-    private int isExpressDelivery;
+    protected int id;
+    protected float deliveryRate;
+    protected float weight;
+    protected int isFragile;
+    protected int isExpressDelivery;
 
     public Order(int id, float deliveryRate, float weight, int isFragile, int isExpressDelivery) {
         this.id = id;
@@ -61,5 +61,24 @@ public class Order {
 
     public void setDeliveryRate(float deliveryRate) {
         this.deliveryRate = deliveryRate;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", deliveryRate=" + deliveryRate +
+                ", weight=" + weight +
+                ", isFragile=" + isFragile +
+                ", isExpressDelivery=" + isExpressDelivery +
+                '}';
+    }
+
+    public int getIsFragile() {
+        return isFragile;
+    }
+
+    public int getIsExpressDelivery() {
+        return isExpressDelivery;
     }
 }

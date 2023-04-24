@@ -13,12 +13,14 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Repository
 public class OrderImpl implements OrderDAO{
@@ -166,5 +168,31 @@ public class OrderImpl implements OrderDAO{
             respone.setStatus(false);
             return respone;
         }
+    }
+
+    @Override
+    public List<OrderListTile> getSentOrders(String phoneNumber) {
+        List<OrderListTile> orders = new ArrayList<OrderListTile>();
+        try{
+            String sql = "select id, deliveryRate, weight, isFragile, isExpressDelivery, status  from sentby s inner join orders o on s.orderId = o.id inner join orderstatus t on o.id = t.orderId where s.senderPhoneNumber = ?";
+            orders = jdbcTemplate.query(sql, new BeanPropertyRowMapper<OrderListTile>(OrderListTile.class), phoneNumber);
+            return orders;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return orders;
+    }
+
+    @Override
+    public List<OrderListTile> getReceivedOrders(String phoneNumber) {
+        List<OrderListTile> orders = new ArrayList<OrderListTile>();
+        try{
+            String sql = "select id, deliveryRate, weight, isFragile, isExpressDelivery, status  from tobereceivedby s inner join orders o on s.orderId = o.id inner join orderstatus t on o.id = t.orderId where s.receiverPhoneNumber = ?";
+            orders = jdbcTemplate.query(sql, new BeanPropertyRowMapper<OrderListTile>(OrderListTile.class), phoneNumber);
+            return orders;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return orders;
     }
 }

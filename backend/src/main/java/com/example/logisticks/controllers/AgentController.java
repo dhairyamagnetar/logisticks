@@ -37,4 +37,10 @@ public class AgentController {
         }
         return res;
     }
+
+    @getMapping("/agent/vieworder")
+    public int viewAssignedOrders()
+    {
+
+    }
 }

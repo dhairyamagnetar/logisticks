@@ -37,6 +37,7 @@ public class OrderImpl implements OrderDAO{
     private RateDAO rDAO;
 
     private boolean exists(String phoneNumber) {
+        System.out.println(phoneNumber);
         int found = 0;
         try{
             User user = jdbcTemplate.queryForObject("select * from user where phoneNumber=?",new Object[]{phoneNumber}, new BeanPropertyRowMapper<User>(User.class));

@@ -19,6 +19,9 @@ function App() {
           <button className="btn btn-light m-2" onClick={() => { navigate("/placeorder") }}>
             <b>Send Shipment</b>
           </button>
+          <button className='btn btn-light m-2' onClick={() => {navigate("/rate")}}>
+            <b>Calculate Rate</b>
+          </button>
           <button className="btn btn-warning m-2"
             onClick={() => {
               navigate("/orders")

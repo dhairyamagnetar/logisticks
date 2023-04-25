@@ -8,6 +8,7 @@ const Navbar = () => {
     const authobj = useContext(AuthContext);
 
     return <div className="Navbar d-flex flex-row">
+        <button className="btn btn-light homebtn" onClick={() => {navigate("/")}}> Home </button>
         {
         authobj.loggedIn_ ?
             <button className="btn btn-light loginbtn" onClick={() => {

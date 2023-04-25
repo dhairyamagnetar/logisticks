@@ -16,6 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import axios from 'axios';
 import { Button } from '@mui/material';
 import { AuthContext } from '../../context/Auth';
+import tick from "../../../public/tick.png"
 import { ThemeProvider, createTheme } from '@mui/material';
 
 import { useState, useEffect, useContext } from 'react'
@@ -34,7 +35,9 @@ const theme = createTheme({
 });
 
 
-
+function timeout(delay) {
+    return new Promise( res => setTimeout(res, delay) );
+}
 
 const Send = () => {
 
@@ -52,6 +55,9 @@ const Send = () => {
     const [location, setIsLocation] = useState(locations[0]);
     const [senderPhone, setSenderPhone] = useState("9876543210");
     const [senderLocation, setSenderLocation] = useState(-1);
+    const [orderPlace, setOrderPlace] = useState(false);
+    const [page, setPage] = useState(0);
+    const [message, setMessage] = useState("Fetching Payment Details...")
 
     const URL = "http://localhost:8080/";
 
@@ -197,7 +203,13 @@ const Send = () => {
         }
     ];
 
-    const handlePay = () => {
+    const handlePay = async () => {
+
+        setPage(1);
+
+        await timeout(3000);
+
+        setMessage("Placing your Order .....")
 
         var id = 0;
 
@@ -220,9 +232,10 @@ const Send = () => {
             "receiverPhoneNumber": phone,
             "senderLocationId": senderLocation,
             receiverLocationId: id
-        }).then((response) => {
+        }).then(async (response) => {
             // console.log(response);
-            alert("Order Was Placed Successfully")
+            await timeout(2000);
+            setOrderPlace(true)
         }).catch((err) => {
             // console.log(err);
             alert("Error")
@@ -232,150 +245,213 @@ const Send = () => {
     // console.log(weight);
 
     return (
+
         <ThemeProvider theme={theme}>
-            <div className="Send">
-                <div className="child">
-                    <div className="container">
-                        <div className="row mt-2">
-                            <div className="col-12 d-flex justify-content-center">
-                                <h2 className="heading">Place Order</h2>
-                            </div>
-                        </div>
-                        <div className="row d-flex justify-content-center">
-                            <div className="col-10">
-                                <div className="line"></div>
-                            </div>
-                        </div>
-                        <div className={`row mt-4 d-flex justify-content-${align} me-2`}>
-                            <div className="col-12 col-sm-6 col-md-3">
-                                <FormControl sx={{ m: 1, width: '100%', color: 'white.main' }} variant="outlined">
-                                    {/* <InputLabel htmlFor="outlined-adornment-weight">Weight</InputLabel> */}
-                                    <OutlinedInput
-                                        // label="Weight"
-                                        id="outlined-adornment-weight"
-                                        endAdornment={<InputAdornment position="end">kg</InputAdornment>}
-                                        aria-describedby="outlined-weight-helper-text"
-                                        value={weight}
-                                        onChange={(val) => setWeight(val.target.value)}
-                                        className="mui-inp"
-                                        sx={{ bgcolor: 'main.white' }}
-                                        inputProps={{
-                                            'aria-label': 'weight',
-                                        }}
-                                    />
-                                    <FormHelperText id="outlined-weight-helper-text">Weight</FormHelperText>
-                                </FormControl>
-                            </div>
-                            <div className="col-12 col-sm-6 col-md-3">
-                                <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
-                                    <TextField
-                                        id="outlined-select-currency"
-                                        select
-                                        // label="Fragility"
-                                        value={isfragile}
-                                        onChange={(event) => setIsFragile(event.target.value)}
-                                        helperText="Choose yes if your item is fragile"
-                                    >
-                                        {fragile.map((option) => (
-                                            <MenuItem key={option.value} value={option.value}>
-                                                {option.label}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
-                                </FormControl>
-                            </div>
-                            <div className="col-12 col-sm-12 col-md-3">
-                                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                                    <TextField
-                                        id="outlined-select-currency"
-                                        select
-                                        // label="Express Delivery"
-                                        value={isExpress}
-                                        onChange={(event) => setIsExpress(event.target.value)}
-                                        helperText="Select yes if you want express delivery"
-                                    >
-                                        {Express.map((option) => (
-                                            <MenuItem key={option.value} value={option.value}>
-                                                {option.label}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
-                                </FormControl>
+            {
+                page == 0 ?
 
-                            </div>
-                        </div>
+                    <div className="Send">
+                        <div className="child">
+                            <div className="container">
+                                <div className="row mt-2">
+                                    <div className="col-12 d-flex justify-content-center">
+                                        <h2 className="heading">Place Order</h2>
+                                    </div>
+                                </div>
+                                <div className="row d-flex justify-content-center">
+                                    <div className="col-10">
+                                        <div className="line"></div>
+                                    </div>
+                                </div>
+                                <div className={`row mt-4 d-flex justify-content-${align} me-2`}>
+                                    <div className="col-12 col-sm-6 col-md-3">
+                                        <FormControl sx={{ m: 1, width: '100%', color: 'white.main' }} variant="outlined">
+                                            {/* <InputLabel htmlFor="outlined-adornment-weight">Weight</InputLabel> */}
+                                            <OutlinedInput
+                                                // label="Weight"
+                                                id="outlined-adornment-weight"
+                                                endAdornment={<InputAdornment position="end">kg</InputAdornment>}
+                                                aria-describedby="outlined-weight-helper-text"
+                                                value={weight}
+                                                onChange={(val) => setWeight(val.target.value)}
+                                                className="mui-inp"
+                                                sx={{ bgcolor: 'main.white' }}
+                                                inputProps={{
+                                                    'aria-label': 'weight',
+                                                }}
+                                            />
+                                            <FormHelperText id="outlined-weight-helper-text">Weight</FormHelperText>
+                                        </FormControl>
+                                    </div>
+                                    <div className="col-12 col-sm-6 col-md-3">
+                                        <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
+                                            <TextField
+                                                id="outlined-select-currency"
+                                                select
+                                                // label="Fragility"
+                                                value={isfragile}
+                                                onChange={(event) => setIsFragile(event.target.value)}
+                                                helperText="Choose yes if your item is fragile"
+                                            >
+                                                {fragile.map((option) => (
+                                                    <MenuItem key={option.value} value={option.value}>
+                                                        {option.label}
+                                                    </MenuItem>
+                                                ))}
+                                            </TextField>
+                                        </FormControl>
+                                    </div>
+                                    <div className="col-12 col-sm-12 col-md-3">
+                                        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                                            <TextField
+                                                id="outlined-select-currency"
+                                                select
+                                                // label="Express Delivery"
+                                                value={isExpress}
+                                                onChange={(event) => setIsExpress(event.target.value)}
+                                                helperText="Select yes if you want express delivery"
+                                            >
+                                                {Express.map((option) => (
+                                                    <MenuItem key={option.value} value={option.value}>
+                                                        {option.label}
+                                                    </MenuItem>
+                                                ))}
+                                            </TextField>
+                                        </FormControl>
 
-                        <div className={`row d-flex justify-content-${align} mt-1`}>
-                            <div className="col-12 col-sm-12 col-md-6">
-                                {console.log(width)}
-                                <FormControl sx={{ m: 1, width: `${width}` }} variant="outlined">
-                                    {/* <InputLabel htmlFor="outlined-adornment-weight">Receiver's Phone Number</InputLabel> */}
-                                    <OutlinedInput
-                                        // label="Reciever's Phone Number"
-                                        id="outlined-adornment-weight"
-                                        // endAdornment={<InputAdornment position="end">kg</InputAdornment>}
-                                        aria-describedby="outlined-weight-helper-text"
-                                        helperText="Enter Receiver's Phone Number"
-                                        value={phone}
-                                        onChange={(event) => setPhone(event.target.value)}
-                                        inputProps={{
-                                            'aria-label': 'weight',
-                                        }}
-                                    />
-                                    <FormHelperText id="outlined-weight-helper-text">Enter Receiver's Phone Number</FormHelperText>
-                                </FormControl>
-                            </div>
-                            <div className="col-12 col-sm-12 col-md-3">
+                                    </div>
+                                </div>
 
-                            </div>
+                                <div className={`row d-flex justify-content-${align} mt-1`}>
+                                    <div className="col-12 col-sm-12 col-md-6">
+                                        {console.log(width)}
+                                        <FormControl sx={{ m: 1, width: `${width}` }} variant="outlined">
+                                            {/* <InputLabel htmlFor="outlined-adornment-weight">Receiver's Phone Number</InputLabel> */}
+                                            <OutlinedInput
+                                                // label="Reciever's Phone Number"
+                                                id="outlined-adornment-weight"
+                                                // endAdornment={<InputAdornment position="end">kg</InputAdornment>}
+                                                aria-describedby="outlined-weight-helper-text"
+                                                helperText="Enter Receiver's Phone Number"
+                                                value={phone}
+                                                onChange={(event) => setPhone(event.target.value)}
+                                                inputProps={{
+                                                    'aria-label': 'weight',
+                                                }}
+                                            />
+                                            <FormHelperText id="outlined-weight-helper-text">Enter Receiver's Phone Number</FormHelperText>
+                                        </FormControl>
+                                    </div>
+                                    <div className="col-12 col-sm-12 col-md-3">
 
-                            {/* <div className="col-12 col-sm-6 col-md-3">
+                                    </div>
+
+                                    {/* <div className="col-12 col-sm-6 col-md-3">
 
                         </div> */}
-                        </div>
-
-                        <div className={`row mt-md-1 mt-sm-1 d-flex justify-content-${align}`}>
-                            <div className="col-12 col-sm-12 col-md-3">
-                                <FormControl fullWidth className="ms-2 mt-2" variant="outlined">
-                                    <TextField
-                                        id="outlined-select-currency"
-                                        select
-                                        // label="Receiver's Location"
-                                        value={location}
-                                        onChange={(event) => setIsLocation(event.target.value)}
-                                    >
-                                        {locations.map((option) => (
-                                            // console.log(option.district)
-                                            <MenuItem key={option.district} value={option.district}>
-                                                {option.district}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
-                                    <FormHelperText id="outlined-weight-helper-text">Select Receiver's location</FormHelperText>
-                                </FormControl>
-                            </div>
-                            <div className="col-12 col-sm-12 col-md-3">
-
-                            </div>
-                            <div className="col-6 col-sm-6 col-md-3 mt-3 mt-md-0 ">
-                                <div className="pay d-flex w-100 align-items-center justify-content-center">
-                                    <p1 className="">Amount : </p1>
-                                    <p1 className="">{Amount}</p1>
                                 </div>
+
+                                <div className={`row mt-md-1 mt-sm-1 d-flex justify-content-${align}`}>
+                                    <div className="col-12 col-sm-12 col-md-3">
+                                        <FormControl fullWidth className="ms-2 mt-2" variant="outlined">
+                                            <TextField
+                                                id="outlined-select-currency"
+                                                select
+                                                // label="Receiver's Location"
+                                                value={location}
+                                                onChange={(event) => setIsLocation(event.target.value)}
+                                            >
+                                                {locations.map((option) => (
+                                                    // console.log(option.district)
+                                                    <MenuItem key={option.district} value={option.district}>
+                                                        {option.district}
+                                                    </MenuItem>
+                                                ))}
+                                            </TextField>
+                                            <FormHelperText id="outlined-weight-helper-text">Select Receiver's location</FormHelperText>
+                                        </FormControl>
+                                    </div>
+                                    <div className="col-12 col-sm-12 col-md-3">
+
+                                    </div>
+                                    <div className="col-6 col-sm-6 col-md-3 mt-3 mt-md-0 ">
+                                        <div className="pay d-flex w-100 align-items-center justify-content-center">
+                                            <p1 className="">Amount : </p1>
+                                            <p1 className="">{Amount}</p1>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="row d-flex justify-content-center mt-4 ">
+                                    <div className="col-12 col-sm-4">
+                                        <button type="button" class="btn btn-warning w-100 but1" onClick={handlePay}>{`${butText}`}</button>
+                                    </div>
+
+                                </div>
+
                             </div>
-                        </div>
-
-                        <div className="row d-flex justify-content-center mt-4 ">
-                            <div className="col-12 col-sm-4">
-                                <button type="button" class="btn btn-warning w-100 but1" onClick={handlePay}>{`${butText}`}</button>
-                            </div>
 
                         </div>
-
                     </div>
+                    :
+                    <div>
+                        <div className="Send">
+                            <div className="child">
+                                <div className="container">
+                                    <div className="row mt-2">
+                                        <div className="col-12 d-flex justify-content-center">
+                                            <h2 className="heading">Place Order</h2>
+                                        </div>
+                                    </div>
+                                    <div className="row d-flex justify-content-center">
+                                        <div className="col-10">
+                                            <div className="line"></div>
+                                        </div>
+                                    </div>
+                                    {
+                                        orderPlace ?
+                                            <div>
+                                                <div>
+                                                    <div className={`row d-flex justify-content-${align} me-2 spin`}>
+                                                        <div className="d1 d-flex justify-content-center align-items-center">
+                                                            <img src={tick} className="img1"/>
+                                                        </div>
 
-                </div>
-            </div>
+                                                    </div>
+                                                    <div className="row d5 d-flex justify-content-center">
+                                                        <div className="col-12 d-flex justify-content-center">
+                                                            <h4 className="placing">Order Placed!</h4>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            :
+                                            <div>
+                                                <div className={`row d-flex justify-content-${align} me-2 spin`}>
+                                                    <div className="d1 d-flex justify-content-center align-items-center">
+                                                        <div class="spinner-border  text-warning d2" role="status">
+                                                            <span class="sr-only"></span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div className="row d5 d-flex justify-content-center">
+                                                    <div className="col-12 d-flex justify-content-center">
+                                                        <h4 className="placing">{message}</h4>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                    }
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+            }
         </ThemeProvider>
     )
 

@@ -113,11 +113,4 @@ public class UserDAOImpl implements UserDAO{
         return res;
     }
 
-    @Override
-    public List<Order> getSentOrders(String phoneNumber) {
-        //String sql = "select";
-        ///List<Order> ret = jdbcTemplate.query();
-        return null;
-    }
-
 }

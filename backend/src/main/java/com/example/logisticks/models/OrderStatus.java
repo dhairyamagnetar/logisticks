@@ -3,10 +3,12 @@ package com.example.logisticks.models;
 public class OrderStatus {
 
     public static enum Status{
-        DISPATCHED(0),
-        ARRIVED(1),
-        OUTFORDELIVERY(2),
-        DELIVERED(3);
+
+        PLACED(0),
+        DISPATCHED(1),
+        ARRIVED(2),
+        OUTFORDELIVERY(3),
+        DELIVERED(4);
 
         private final int value;
         private Status(int value){

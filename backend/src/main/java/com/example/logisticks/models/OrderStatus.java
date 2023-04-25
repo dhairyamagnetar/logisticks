@@ -4,11 +4,19 @@ public class OrderStatus {
 
     public static enum Status{
 
-        PLACED,
-        DISPATCHED,
-        ARRIVED,
-        OUTFORDELIVERY,
-        DELIVERED
+        PLACED(0),
+        DISPATCHED(1),
+        ARRIVED(2),
+        OUTFORDELIVERY(3),
+        DELIVERED(4);
+
+        private final int value;
+        private Status(int value){
+            this.value = value;
+        }
+        public int getValue(){
+            return value;
+        }
     }
     private int orderId;
     private int currentLocationId;
@@ -18,6 +26,9 @@ public class OrderStatus {
         this.orderId = orderId;
         this.currentLocationId = currentLocationId;
         this.status = status;
+    }
+
+    public OrderStatus() {
     }
 
     public int getOrderId() {

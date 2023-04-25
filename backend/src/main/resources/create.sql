@@ -76,6 +76,16 @@ create table agent(
     CONSTRAINT PK_User PRIMARY KEY (phoneNumber)
 );
 
+create table tobedeliveredby(
+    orderId INT NOT NULL,
+    agentPhoneNumber varchar(20) NOT NULL,
+    CONSTRAINT PK_agent PRIMARY KEY (orderId)
+);
+
+alter table tobedeliveredby
+add constraint FK_tobedeliveredby_agent
+foreign key (agentPhoneNumber) references agent(phoneNumber);
+
 alter table rate
 add constraint FK_rate_fromLocationId
 foreign key (fromLocationId) references location(id);

@@ -26,7 +26,6 @@ const Login = (props) => {
             },
             data: data
         };
-        console.log(config);
         axios.request(config)
             .then((response) => {
                 var data = response.data;

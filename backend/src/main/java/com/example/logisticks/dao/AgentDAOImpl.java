@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 @Repository
@@ -60,10 +61,17 @@ public class AgentDAOImpl implements AgentDAO{
         return 0;
     }
     @Override
-    public List<Agent> viewAssignedOrders(Agent agent)
+    public List<AgentAssignedOrder> viewAssignedOrders()
     {
-        String sql="select * from agent inner join orders on orders.id=agent.orderId";
-        return jdbcTemplate.query(sql,new BeanPropertyRowMapper<Agent>(Agent.class));
+        List<AgentAssignedOrder> orders = new ArrayList<AgentAssignedOrder>();
+        try{
+            String sql = "select o.id, o.weight, o.isFragile, o.isExpressDelivery,r.receiverPhoneNumber, concat(a.houseNumber,' ',a.locality,',',l.district,' ',l.city,' ',l.state) as receiver_address from orders o inner join tobereceivedby r on o.id = r.orderId inner join address a on a.id=o.id inner join location l on l.id=a.locationId;";
+            orders = jdbcTemplate.query(sql, new BeanPropertyRowMapper<AgentAssignedOrder>(AgentAssignedOrder.class));
+            return orders;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return orders;
     }
     @Override
     public AgentResponse markAsDelivered(AgentRequest agentRequest)

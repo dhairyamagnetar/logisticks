@@ -2,6 +2,7 @@ package com.example.logisticks.controllers;
 
 import com.example.logisticks.dao.AgentDAO;
 import com.example.logisticks.models.Agent;
+import com.example.logisticks.models.AgentAssignedOrder;
 import com.example.logisticks.requests.AgentRequest;
 import com.example.logisticks.requests.SignInRequest;
 import com.example.logisticks.requests.SignUpRequest;
@@ -42,9 +43,9 @@ public class AgentController {
         return res;
     }
     @GetMapping("agent/viewAssignedOrders")
-    public List<Agent> viewAssignedOrders(com.example.logisticks.models.Agent agent)
+    public List<AgentAssignedOrder> viewAssignedOrders()
     {
-        return aDAO.viewAssignedOrders(agent);
+        return aDAO.viewAssignedOrders();
     }
     @PostMapping("/agent/markasdelivered")
     public AgentResponse markasdelivered(@RequestBody AgentRequest order) {

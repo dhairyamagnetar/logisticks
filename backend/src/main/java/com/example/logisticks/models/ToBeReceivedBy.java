@@ -13,6 +13,9 @@ public class ToBeReceivedBy {
         this.receptionOTP = receptionOTP;
     }
 
+    public ToBeReceivedBy() {
+    }
+
     public int getOrderId() {
         return orderId;
     }

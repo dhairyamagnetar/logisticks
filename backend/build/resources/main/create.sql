@@ -1,7 +1,11 @@
 create database logisticks;
 use logisticks;
 
+<<<<<<< HEAD
 create table user(
+=======
+create table users(
+>>>>>>> 764068f3b2a1689e867e9036ef36a40616510020
     phoneNumber varchar(20) NOT NULL,
     name varchar(100) NOT NULL,
     addressId int NOT NULL,
@@ -76,6 +80,19 @@ create table agent(
     CONSTRAINT PK_User PRIMARY KEY (phoneNumber)
 );
 
+<<<<<<< HEAD
+=======
+create table tobedeliveredby(
+    orderId INT NOT NULL,
+    agentPhoneNumber varchar(20) NOT NULL,
+    CONSTRAINT PK_agent PRIMARY KEY (orderId)
+);
+
+alter table tobedeliveredby
+add constraint FK_tobedeliveredby_agent
+foreign key (agentPhoneNumber) references agent(phoneNumber);
+
+>>>>>>> 764068f3b2a1689e867e9036ef36a40616510020
 alter table rate
 add constraint FK_rate_fromLocationId
 foreign key (fromLocationId) references location(id);

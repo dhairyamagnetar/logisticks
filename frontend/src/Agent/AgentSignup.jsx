@@ -59,7 +59,7 @@ const AgentSignup = (props) => {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'http://127.0.0.1:8080/auth/signup',
+            url: 'http://127.0.0.1:8080/agent/signup',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -90,14 +90,7 @@ const AgentSignup = (props) => {
                 </div>
                 <div className="switchbtn">
                     <button className="btn btn-dark m-2"
-                        onClick={props.userTypeSwitcher}
-                    >
-                        <b>Switch to User</b>
-                    </button>
-                </div>
-                <div className="switchbtn">
-                    <button className="btn btn-dark m-2"
-                        onClick={props.authSwitcher}
+                        onClick={() => { navigate("/agentlogin") }}
                     >
                         <b>Log In Instead</b>
                     </button>
@@ -105,7 +98,7 @@ const AgentSignup = (props) => {
             </div>
             <div className="col-12 col-md-6 p-5 blackcol d-flex flex-column align-items-center">
                 <div className="h2 text-center">
-                   Agent Sign Up
+                    Sign Up (Agent)
                 </div>
                 <div className="loginform text-center">
                     <div className="m-2">
@@ -154,13 +147,13 @@ const AgentSignup = (props) => {
                     </div>
                     <Dropdown>
                         <Dropdown.Toggle variant="light" id="dropdown-basic">
-                            {location === null ? "Locations": location.city + ", "+location.state}
+                            {location === null ? "Locations" : location.city + ", " + location.state}
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                            {locations.map((e)=>{
+                            {locations.map((e) => {
                                 return <Dropdown.Item
-                                    onClick={()=>{
+                                    onClick={() => {
                                         setLocation(e);
                                     }}
                                 >{e.city + ", " + e.state}</Dropdown.Item>

@@ -1,3 +1,56 @@
+@import '../../theme.scss';
+
 .Track{
-    
+    background-color: $c10;
+    padding-top: 10vh;
+    width : 100vw;
+    overflow-x: hidden;
+    .heading{
+        background-color: white;
+        border-radius : 15px;
+        color : black;
+        width: fit-content;
+        padding : 10px;
+        .idval{
+            color : $c6;
+            margin : 10px;
+        }
+    }
+    .loc{
+        background-color: white;
+        min-height: 50px;
+        border-radius: 15px;
+        margin : 15px;
+        .city{
+            color : $c6;
+            font-weight: 600;
+            font-size: medium;
+            text-align: center;
+        }
+        .status{
+            font-weight: 600;
+            color : white;
+            background-color: $c3;
+            padding : 10px;
+            border-radius: 10px;
+        }
+    }
+    .agent{
+        background-color: $c6;
+        color : black;
+        font-weight: 600;
+        border-radius: 15px;
+        .name{
+            color : white;
+            font-size: larger;
+            
+        }
+        .pill{
+            background-color: white;
+            width: fit-content;
+            color : black;
+            padding : 10px 20px;
+            border-radius: 10px;
+        }
+    }
 }

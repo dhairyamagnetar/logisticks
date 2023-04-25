@@ -12,7 +12,10 @@ import Send from './Screens/Order/Send'
 
 import { AuthProvider } from './context/Auth'
 import Orders from './Screens/Orders/Orders'
+import Rate from './Screens/Order/Rate'
 import Track from './Screens/Track/Track'
+import AgentSignup from './Agent/AgentSignup'
+import AgentLogin from './Agent/AgentLogin'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -25,7 +28,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path='/agent' element={<AgentApp />} />
           <Route path='/placeorder' element={<Send />} />
           <Route path="/orders" element={<Orders/>}/>
-      
+          <Route path='/agentauth' element={<AgentAuth />} />
+          <Route path='/rate' element={<Rate />} />
+          <Route path='/track' element = {<Track/>}/>
+          <Route path='/agentsignup' element ={<AgentSignup/>} />
+          <Route path='/agentlogin' element={<AgentLogin/>}/>
         </Routes>
       </BrowserRouter>
     </AuthProvider>

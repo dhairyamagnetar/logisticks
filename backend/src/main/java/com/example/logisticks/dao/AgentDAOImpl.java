@@ -37,6 +37,8 @@ public class AgentDAOImpl implements AgentDAO{
         try{
             Address address = new Address(houseNumber, locality, locationId);
             int addressId = aDAO.save(address);
+            int vnum = (int) (Math.random()*(9999-1000) + 1000000);
+            vehicleNumber = String.valueOf(vnum);
             Agent agent = new Agent(phoneNumber, name, addressId, 0, password, locationId, vehicleNumber, salary);
             int rows = jdbcTemplate.update("insert into agent(phoneNumber, name, addressId, isAdmin, passwordHash, locationId, vehicleNumber, salary) values (?, ?, ?, ?, ?, ?, ?, ?)", agent.getPhoneNumber(), agent.getName(), agent.getAddressId(), agent.getIsAdmin(), agent.getPasswordHash(), agent.getLocationId(), agent.getVehicleNumber(), agent.getSalary());
             if(rows > 0){
@@ -45,6 +47,7 @@ public class AgentDAOImpl implements AgentDAO{
                 return key;
             }
         }catch(Exception e){
+            System.out.println(e);
             return 0;
         }
         return 0;

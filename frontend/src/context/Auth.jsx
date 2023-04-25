@@ -6,6 +6,7 @@ const AuthProvider = ({ children }) => {
     const [loggedIn_, setLoggedIn_] = useState(false)
     const [phone_, setPhone_] = useState(null)
     const [key_, setKey_] = useState(null)
+    const [type_,setType_] = useState("user")
 
     return <AuthContext.Provider value={
         {
@@ -14,7 +15,8 @@ const AuthProvider = ({ children }) => {
             phone_,
             setPhone_,
             key_,
-            setKey_
+            setKey_,
+            type_, setType_
         }
     }
     >

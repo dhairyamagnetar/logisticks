@@ -20,7 +20,7 @@ const Login = (props) => {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'http://127.0.0.1:8080/auth/signin',
+            url: 'http://127.0.0.1:8080/agent/signin',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -50,10 +50,10 @@ const Login = (props) => {
                 <div className="img">
                     <img src='/courier.png' className='heroimg' />
                 </div>
-                
+
                 <div className="switchbtn">
                     <button className="btn btn-dark m-2"
-                        onClick={props.switch}
+                        onClick={() => { navigate("/agentsignup") }}
                     >
                         <b>Sign Up Instead</b>
                     </button>
@@ -61,7 +61,7 @@ const Login = (props) => {
             </div>
             <div className="col-12 col-md-6 p-5 blackcol d-flex flex-column align-items-center">
                 <div className="h2 text-center">
-                    Log In
+                    Log In (Agent)
                 </div>
                 <div className="loginform text-center">
                     <div className="m-2">

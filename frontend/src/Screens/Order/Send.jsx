@@ -20,6 +20,7 @@ import tick from "../../../public/tick.png"
 import { ThemeProvider, createTheme } from '@mui/material';
 
 import { useState, useEffect, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 
 const theme = createTheme({
@@ -41,6 +42,7 @@ function timeout(delay) {
 
 const Send = () => {
 
+    const navigate = useNavigate();
     const authobj = useContext(AuthContext);
 
     const [locations, setLocations] = useState([])
@@ -238,7 +240,10 @@ const Send = () => {
             setOrderPlace(true)
         }).catch((err) => {
             // console.log(err);
-            alert("Error")
+            alert("Error, cannot place your order : ", err)
+            setPage(0);
+            navigate("/placeorder");
+
         })
     }
 

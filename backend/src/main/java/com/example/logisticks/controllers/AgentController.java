@@ -1,14 +1,16 @@
 package com.example.logisticks.controllers;
 
 import com.example.logisticks.dao.AgentDAO;
+import com.example.logisticks.models.Agent;
+import com.example.logisticks.requests.AgentRequest;
 import com.example.logisticks.requests.SignInRequest;
 import com.example.logisticks.requests.SignUpRequest;
+import com.example.logisticks.responses.AgentResponse;
 import com.example.logisticks.responses.SignInResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -39,10 +41,13 @@ public class AgentController {
         }
         return res;
     }
-
-    @getMapping("/agent/vieworder")
-    public int viewAssignedOrders()
+    @GetMapping("agent/viewAssignedOrders")
+    public List<Agent> viewAssignedOrders(com.example.logisticks.models.Agent agent)
     {
-
+        return aDAO.viewAssignedOrders(agent);
+    }
+    @PostMapping("/agent/markasdelivered")
+    public AgentResponse markasdelivered(@RequestBody AgentRequest order) {
+        return aDAO.markAsDelivered(order);
     }
 }

@@ -26,6 +26,9 @@ public class OrderStatus {
         this.status = status;
     }
 
+    public OrderStatus() {
+    }
+
     public int getOrderId() {
         return orderId;
     }

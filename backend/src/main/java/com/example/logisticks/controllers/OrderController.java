@@ -4,12 +4,13 @@ import com.example.logisticks.dao.OrderDAO;
 import com.example.logisticks.models.OrderListTile;
 import com.example.logisticks.requests.OrderRequest;
 import com.example.logisticks.responses.OrderResponse;
+import com.example.logisticks.responses.TrackingResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@RestController
 @CrossOrigin
+@RestController
 public class OrderController {
     @Autowired
     private OrderDAO oDAO;
@@ -26,5 +27,11 @@ public class OrderController {
     @GetMapping("/order/received/{phoneNumber}")
     public List<OrderListTile> getReceivedOrders(@PathVariable String phoneNumber){
         return oDAO.getReceivedOrders(phoneNumber);
+    }
+
+    @GetMapping("/order/track/{orderId}")
+    public TrackingResponse getTrackingDetails(@PathVariable String orderId){
+        TrackingResponse ret = oDAO.getTrackingDetails(Integer.parseInt(orderId));
+        return ret;
     }
 }

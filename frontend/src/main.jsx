@@ -11,6 +11,7 @@ import Send from './Screens/Order/Send'
 import AgentAuth from './Agent/AgentAuth'
 import { AuthProvider } from './context/Auth'
 import Orders from './Screens/Orders/Orders'
+import Track from './Screens/Track/Track'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -23,6 +24,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path='/placeorder' element={<Send />} />
           <Route path="/orders" element={<Orders/>}/>
           <Route path='/agentauth' element={<AgentAuth />} />
+          <Route path='/track' element = {<Track/>}/>
         </Routes>
       </BrowserRouter>
     </AuthProvider>

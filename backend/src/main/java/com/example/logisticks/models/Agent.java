@@ -31,4 +31,5 @@ public class Agent extends User{
     public void setLocationId(int locationId) {
         this.locationId = locationId;
     }
+
 }

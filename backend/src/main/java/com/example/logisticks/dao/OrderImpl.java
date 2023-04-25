@@ -3,8 +3,10 @@ package com.example.logisticks.dao;
 import com.example.logisticks.models.*;
 import com.example.logisticks.requests.OrderRequest;
 import com.example.logisticks.responses.OrderResponse;
+import com.example.logisticks.responses.TrackingResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -112,7 +114,6 @@ public class OrderImpl implements OrderDAO{
                 order.setId(generatedKeyHolder.getKey().intValue());
             } catch (Exception e) {
                 System.out.println("Error in place order");
-                System.out.println(e);
                 respone.setMessage("Error in placing order!");
                 respone.setPrice(-1);
                 respone.setStatus(false);
@@ -181,6 +182,7 @@ public class OrderImpl implements OrderDAO{
     public List<OrderListTile> getSentOrders(String phoneNumber) {
         List<OrderListTile> orders = new ArrayList<OrderListTile>();
         try{
+            System.out.println(phoneNumber);
             String sql = "select id, deliveryRate, weight, isFragile, isExpressDelivery, status  from sentby s inner join orders o on s.orderId = o.id inner join orderstatus t on o.id = t.orderId where s.senderPhoneNumber = ?";
             orders = jdbcTemplate.query(sql, new BeanPropertyRowMapper<OrderListTile>(OrderListTile.class), phoneNumber);
             return orders;
@@ -202,4 +204,47 @@ public class OrderImpl implements OrderDAO{
         }
         return orders;
     }
+
+    @Override
+    public TrackingResponse getTrackingDetails(int orderId) {
+        try{
+            OrderStatus status = jdbcTemplate.queryForObject("select * from orderstatus where orderId = ?", new Object[]{orderId}, new BeanPropertyRowMapper<OrderStatus>(OrderStatus.class));
+
+            String sql = "select l.id as id, city, district, state from sentby s inner join user u on s.senderPhoneNumber = u.phoneNumber inner join address a on u.addressId = a.id inner join location l on a.locationId = l.id where s.orderId = ?";
+            Location senderLocation = jdbcTemplate.queryForObject(sql, new Object[]{orderId}, new BeanPropertyRowMapper<Location>(Location.class));
+
+            sql = "select l.id as id, city, district, state from tobereceivedby s inner join user u on s.receiverPhoneNumber = u.phoneNumber inner join address a on u.addressId = a.id inner join location l on a.locationId = l.id where s.orderId = ?";
+            Location receiverLocation = jdbcTemplate.queryForObject(sql, new Object[]{orderId}, new BeanPropertyRowMapper<Location>(Location.class));
+
+            sql = "select l.id as id, city, district, state from orderstatus s inner join location l on s.currentLocationId = l.id where s.orderId = ?";
+            Location currentLocation = jdbcTemplate.queryForObject(sql, new Object[]{orderId}, new BeanPropertyRowMapper<Location>(Location.class));
+
+            sql = "select * from tobeReceivedBy where orderId = ?";
+            ToBeReceivedBy receipt = jdbcTemplate.queryForObject(sql, new Object[]{orderId}, new BeanPropertyRowMapper<ToBeReceivedBy>(ToBeReceivedBy.class));
+
+            sql = "select phoneNumber, name, addressId, isAdmin, passwordHash, locationId, vehicleNumber, salary from tobedeliveredby d inner join agent a on d.agentPhoneNumber  = a.phoneNumber where d.orderId = ?";
+            Agent deliveryAgent = jdbcTemplate.queryForObject(sql, new Object[]{orderId}, new BeanPropertyRowMapper<Agent>(Agent.class));
+
+            TrackingResponse ret = new TrackingResponse(
+                    senderLocation.getCity(),
+                    senderLocation.getDistrict(),
+                    senderLocation.getState(),
+                    receiverLocation.getCity(),
+                    receiverLocation.getDistrict(),
+                    receiverLocation.getState(),
+                    currentLocation.getCity(),
+                    currentLocation.getDistrict(),
+                    currentLocation.getState(),
+                    status.getStatus(),
+                    receipt.getReceptionOTP(),
+                    deliveryAgent.getPhoneNumber(),
+                    deliveryAgent.getName()
+            );
+            return ret;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return new TrackingResponse();
+    }
+
 }

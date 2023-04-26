@@ -1,10 +1,12 @@
+
 import './AgentApp.scss'
+import { useNavigate } from 'react-router-dom';
 import Modal from './Modal';
 import React,{ useState } from 'react';
 
 export default function AgentApp() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const navigate = useNavigate();
   const handleModalOpen = () => {
     setIsModalOpen(true);
   };
@@ -13,8 +15,9 @@ export default function AgentApp() {
     setIsModalOpen(false);
   };
 
-  const handleOtpSubmit = (otp) => {
+  const handleOtpSubmit = (otp,id) => {
     console.log(`OTP submitted: ${otp}`);
+    console.log(`Id submitted: ${id}`);
     setIsModalOpen(false);
   };
 
@@ -31,7 +34,7 @@ export default function AgentApp() {
               <div className="h6 text-center m-3">
                 Entrust all your shipping challenges in our wily hands. Strong, tech-driven solutions for all the problems on the road.
               </div>
-              <button className="btn btn-light m-2">
+              <button className="btn btn-light m-2" onClick= {() => { navigate("/agent/assignedorders") }}>
               <b>Pending Orders</b>
               </button>
               <div>

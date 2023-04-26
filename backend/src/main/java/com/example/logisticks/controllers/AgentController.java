@@ -43,7 +43,7 @@ public class AgentController {
         return res;
     }
     @GetMapping("agent/viewAssignedOrders")
-    public List<AgentAssignedOrder> viewAssignedOrders()
+    public List<AgentAssignedOrder> viewassignedOrders()
     {
         return aDAO.viewAssignedOrders();
     }

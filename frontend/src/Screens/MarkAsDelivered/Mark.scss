@@ -1,0 +1,117 @@
+@import '../../theme.scss';
+
+// :root {
+//     background-color: $c10 !important;
+// }
+
+// .body {
+//     background-color: $c10 !important;
+// }
+
+/* width */
+::-webkit-scrollbar {
+    width: 0px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #eea513;
+    border-radius: 10px;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: $c10;
+    border-radius: 10px;
+  }
+
+.display1 {
+    height: 100vh;
+    width: 100vw;
+    background-color: $c10;
+    // border: 2px solid white;
+}
+
+.parent {
+    border: 5px solid yellow;
+    
+    // height: 100vh;
+}
+
+.child {
+    // height: 80vh;
+    // width: 80vw;
+    border: 2px solid black;
+    height: 80vh;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    margin-left: 5rem;
+    margin-right: 5rem;
+    background-color: white;
+    overflow-y: scroll;
+
+    border-radius: 10px;
+    background-color: $c4;
+}
+
+.Send {
+    background-color: $c10;
+    height: 100vh;
+    margin-bottom: 5rem;
+}
+.pay {
+    // border: 1px solid grey;
+    background-color: white;
+    border-radius: 5px;
+    height: 10vh;
+}
+.but1 {
+    // color: grey !important;
+    height: 7vh;
+}
+
+.MuiInputBase-root {
+    background-color: white ;
+}
+.MuiOutlinedInput-input {
+    background-color: white !important;
+}
+.MuiFormHelperText-root {
+    color: white !important;
+    
+}
+
+.heading {
+    color: white;
+}
+
+.line {
+    width: 100%;
+    border: 1px solid $c13;
+    height: 0;
+}
+
+.spin {
+    height: 25vh;
+}
+
+.d1 {
+    height: 100%;
+    margin-top: 5rem;
+}
+.d2 {
+    height: 8rem;
+    width: 8rem;
+}
+.d5 {
+    margin-top: 8rem;
+}
+
+.placing {
+    color: white;
+    font-family: poppins;
+}
+
+.img1 {
+    height: 100%;
+}

@@ -67,8 +67,10 @@ public class AgentDAOImpl implements AgentDAO{
     public List<AgentAssignedOrder> viewAssignedOrders()
     {
         List<AgentAssignedOrder> orders = new ArrayList<AgentAssignedOrder>();
+        Order ord = new Order();
+
         try{
-            String sql = "select o.id, o.weight, o.isFragile, o.isExpressDelivery,r.receiverPhoneNumber, concat(a.houseNumber,' ',a.locality,',',l.district,' ',l.city,' ',l.state) as receiver_address from orders o inner join tobereceivedby r on o.id = r.orderId inner join address a on a.id=o.id inner join location l on l.id=a.locationId;";
+            String sql = "select o.id, o.weight, o.isFragile, o.isExpressDelivery,r.receiverPhoneNumber, concat(a.houseNumber,' ',a.locality,',',l.district,' ',l.city,' ',l.state) as receiverAddress from orders o inner join tobereceivedby r on o.id = r.orderId inner join address a on a.id=o.id inner join location l on l.id=a.locationId";
             orders = jdbcTemplate.query(sql, new BeanPropertyRowMapper<AgentAssignedOrder>(AgentAssignedOrder.class));
             return orders;
         }catch(Exception e){
@@ -83,14 +85,33 @@ public class AgentDAOImpl implements AgentDAO{
         // select * from orderstatus where orderId=enteredorderId;
         //if this is>0 then move forward else error
         int id=agentRequest.getId();
+        int count;
+        try {
+            jdbcTemplate.queryForObject("select * from orderstatus where orderId = ? and status=0", new BeanPropertyRowMapper<OrderStatus>(OrderStatus.class), id);
+        }catch(Exception e)
+        {
+            System.out.println("Enter correct orderId");
+            System.out.println(e);
+            res.setMessage("Please enter correct orderId!");
+            res.setStatus(false);
+            return res;
+        }
         int otp=agentRequest.getOTP();
         try {
-            jdbcTemplate.update(conn -> {
-                String sql = "update orderstatus set status=1 where (?) in (select r.orderId from tobereceivedby r where receptionOTP=(?) and r.orderId=(?))";
+            ToBeReceivedBy receive=jdbcTemplate.queryForObject("select r.orderId from tobereceivedby r where receptionOTP=(?) and r.orderId=(?)", new BeanPropertyRowMapper<ToBeReceivedBy>(ToBeReceivedBy.class), otp,id);
+        }catch(Exception e)
+        {
+            System.out.println("Enter correct OTP");
+            System.out.println(e);
+            res.setMessage("Please enter correct OTP!");
+            res.setStatus(false);
+            return res;
+        }
+        try {
+                count=jdbcTemplate.update(conn -> {
+                String sql = "update orderstatus set status=1 where orderId=(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setInt(1, id);
-                stmt.setInt(2, otp);
-                stmt.setInt(3, id);
                 return stmt;
             });
         }catch(Exception e)
@@ -98,6 +119,12 @@ public class AgentDAOImpl implements AgentDAO{
             System.out.println("Error in updating order status");
             System.out.println(e);
             res.setMessage("Error in updating order status!");
+            res.setStatus(false);
+            return res;
+        }
+        if(count==0)
+        {
+            res.setMessage("Invalid OTP");
             res.setStatus(false);
             return res;
         }
@@ -116,7 +143,7 @@ public class AgentDAOImpl implements AgentDAO{
             res.setStatus(false);
             return res;
         }
-        res.setMessage("Error made changes");
+        res.setMessage("Made changes");
         res.setStatus(true);
         return res;
     }

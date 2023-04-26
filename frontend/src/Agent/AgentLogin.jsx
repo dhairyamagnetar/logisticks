@@ -34,7 +34,7 @@ const AgentLogin = (props) => {
                     authobj.setPhone_(phone)
                     authobj.setLoggedIn_(true)
                     authobj.setKey_(data.key)
-                    navigate("/")
+                    navigate("/agent")
                 } else {
                     setMessage("Invalid credentials")
                 }

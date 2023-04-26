@@ -45,7 +45,7 @@ const Assigned = () => {
             {
                 called == true ?
                     recvorders.map((e) => {
-                        {/* console.log(e.id) */}
+
                         return <div className="recvorder m-3 d-flex flex-row p-3 justify-content-between">
                             <div className="details">
                                 <div className="h6">{"Order id : " + e.id}</div>

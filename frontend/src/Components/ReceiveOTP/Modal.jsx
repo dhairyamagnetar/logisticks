@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import BootStrapModal from "react-bootstrap/Modal"
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import './Modal.scss';
 const Modal = ({ isOpen, onClose, onSubmit }) => {
 
   const [otp, setOtp] = useState('');
@@ -52,7 +52,7 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
               </span>
               <h2>Enter OTP</h2>
               <form onSubmit={handleSubmit}>
-              <label htmlFor="id-input">Order Id:</label>
+              <label htmlFor="id-input"  className='modal-inside'>Order Id:</label>
                 <input
                   type="text"
                   id="id-input"
@@ -60,15 +60,15 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
                   onChange={handleInputChangeId}
                 />
                 <br></br>
-                <label htmlFor="otp-input">OTP:</label>
+                <label htmlFor="otp-input" className='modal-inside'>OTP:</label>
                 <input
                   type="text"
                   id="otp-input"
                   value={otp}
                   onChange={handleInputChangeOtp}
                 />
-                
-                <button type="submit">Submit</button>
+                <br></br>
+                <button type="submit" className='modal-button'>Submit</button>
               </form>
             </div>
           </div>

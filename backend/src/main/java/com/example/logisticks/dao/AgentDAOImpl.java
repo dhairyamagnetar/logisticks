@@ -1,13 +1,24 @@
 package com.example.logisticks.dao;
 
-import com.example.logisticks.models.Address;
-import com.example.logisticks.models.User;
+import com.example.logisticks.models.*;
+import com.example.logisticks.requests.AgentRequest;
+import com.example.logisticks.responses.AgentResponse;
+import com.example.logisticks.responses.OrderResponse;
 import com.example.logisticks.utilities.Auth;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.spel.ast.NullLiteral;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
-import com.example.logisticks.models.Agent;
+
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 @Repository
 public class AgentDAOImpl implements AgentDAO{
 
@@ -52,4 +63,89 @@ public class AgentDAOImpl implements AgentDAO{
         }
         return 0;
     }
+    @Override
+    public List<AgentAssignedOrder> viewAssignedOrders()
+    {
+        List<AgentAssignedOrder> orders = new ArrayList<AgentAssignedOrder>();
+        Order ord = new Order();
+
+        try{
+            String sql = "select o.id, o.weight, o.isFragile, o.isExpressDelivery,r.receiverPhoneNumber, concat(a.houseNumber,' ',a.locality,',',l.district,' ',l.city,' ',l.state) as receiverAddress from orders o inner join tobereceivedby r on o.id = r.orderId inner join address a on a.id=o.id inner join location l on l.id=a.locationId";
+            orders = jdbcTemplate.query(sql, new BeanPropertyRowMapper<AgentAssignedOrder>(AgentAssignedOrder.class));
+            return orders;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return orders;
+    }
+    @Override
+    public AgentResponse markAsDelivered(AgentRequest agentRequest)
+    {
+        AgentResponse res=new AgentResponse();
+        // select * from orderstatus where orderId=enteredorderId;
+        //if this is>0 then move forward else error
+        int id=agentRequest.getId();
+        int count;
+        try {
+            jdbcTemplate.queryForObject("select * from orderstatus where orderId = ? and status=0", new BeanPropertyRowMapper<OrderStatus>(OrderStatus.class), id);
+        }catch(Exception e)
+        {
+            System.out.println("Enter correct orderId");
+            System.out.println(e);
+            res.setMessage("Please enter correct orderId!");
+            res.setStatus(false);
+            return res;
+        }
+        int otp=agentRequest.getOTP();
+        try {
+            ToBeReceivedBy receive=jdbcTemplate.queryForObject("select r.orderId from tobereceivedby r where receptionOTP=(?) and r.orderId=(?)", new BeanPropertyRowMapper<ToBeReceivedBy>(ToBeReceivedBy.class), otp,id);
+        }catch(Exception e)
+        {
+            System.out.println("Enter correct OTP");
+            System.out.println(e);
+            res.setMessage("Please enter correct OTP!");
+            res.setStatus(false);
+            return res;
+        }
+        try {
+                count=jdbcTemplate.update(conn -> {
+                String sql = "update orderstatus set status=1 where orderId=(?)";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, id);
+                return stmt;
+            });
+        }catch(Exception e)
+        {
+            System.out.println("Error in updating order status");
+            System.out.println(e);
+            res.setMessage("Error in updating order status!");
+            res.setStatus(false);
+            return res;
+        }
+        if(count==0)
+        {
+            res.setMessage("Invalid OTP");
+            res.setStatus(false);
+            return res;
+        }
+        String sql_delete="delete from tobedeliveredby where orderId=(?)";
+        try {
+            jdbcTemplate.update(con -> {
+                PreparedStatement statment = con.prepareStatement(sql_delete);
+                statment.setInt(1, id);
+                return statment;
+            });
+        }catch(Exception e)
+        {
+            System.out.println("Error in deleting tobedeliveredby table");
+            System.out.println(e);
+            res.setMessage("Error in deleting tobedeliveredby table!");
+            res.setStatus(false);
+            return res;
+        }
+        res.setMessage("Made changes");
+        res.setStatus(true);
+        return res;
+    }
+
 }

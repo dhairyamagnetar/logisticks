@@ -1,0 +1,15 @@
+@import '../../theme.scss';
+.myModal{
+    .modal-inside{
+        color:$c10;
+        font-weight: bold;
+    }
+    .modal-button{
+        justify-content: center;
+        left: 50%;
+        top: 50%;
+        position:relative;
+        color:$c10;
+        font-weight: bold;
+    }
+}

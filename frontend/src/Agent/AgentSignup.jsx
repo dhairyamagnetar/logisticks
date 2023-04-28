@@ -7,7 +7,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { useNavigate } from 'react-router-dom';
 
 
-const Signup = (props) => {
+const AgentSignup = (props) => {
     const [phone, setPhone] = useState(null)
     const [passhash, setPasshash] = useState(null)
     const [name, setName] = useState(null)
@@ -73,7 +73,7 @@ const Signup = (props) => {
                     authobj.setPhone_(phone)
                     authobj.setLoggedIn_(true)
                     authobj.setKey_(data.key)
-                    navigate("/")
+                    navigate("/agent")
                 } else {
                     setMessage("Some error occured")
                 }
@@ -82,7 +82,7 @@ const Signup = (props) => {
                 console.log(error);
             });
     }
-    return <div className="Login">
+    return <div className="AgentLogin">
         <div className="hero p-3 row">
             <div className="col-12 col-md-6 text-center">
                 <div className="img">
@@ -179,4 +179,4 @@ const Signup = (props) => {
     </div>
 }
 
-export default Signup;
+export default AgentSignup;

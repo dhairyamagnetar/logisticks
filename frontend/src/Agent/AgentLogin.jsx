@@ -4,7 +4,7 @@ import { sha256 } from 'crypto-hash';
 import axios from 'axios';
 import { AuthContext } from '../context/Auth';
 import { useNavigate } from 'react-router-dom';
-const Login = (props) => {
+const AgentLogin = (props) => {
     const [phone, setPhone] = useState(null)
     const [passhash, setPasshash] = useState(null)
     const [message, setMessage] = useState(null)
@@ -34,7 +34,7 @@ const Login = (props) => {
                     authobj.setPhone_(phone)
                     authobj.setLoggedIn_(true)
                     authobj.setKey_(data.key)
-                    navigate("/")
+                    navigate("/agent")
                 } else {
                     setMessage("Invalid credentials")
                 }
@@ -44,7 +44,7 @@ const Login = (props) => {
                 console.log(error);
             });
     }
-    return <div className="Login">
+    return <div className="AgentLogin">
         <div className="hero p-3 row">
             <div className="col-12 col-md-6 text-center">
                 <div className="img">
@@ -99,4 +99,4 @@ const Login = (props) => {
         </div>
     </div>
 }
-export default Login;
+export default AgentLogin;

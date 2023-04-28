@@ -1,0 +1,38 @@
+@import '../../theme.scss';
+
+.Orders{
+    background-color: $c10;
+    .recbtns{
+        .dark, .light{
+            border-radius: 15px;
+            width : 40%;
+            cursor : pointer;
+        }
+        .dark{
+            background-color: black;
+            color : white;
+        }
+        .light{
+            background-color: white;
+            color : black;
+        }
+    }
+    .details{
+        width: fit-content;
+    }
+    .recvorder, .transorder{
+        width: 90%;
+        background-color: white;
+        color : black;
+        border-radius: 15px;
+        .fragile{
+            color : red;
+        }
+        .notfragile{
+            color : green;
+        }
+        .express{
+            color : rgb(0, 0, 104)
+        }
+    }
+}

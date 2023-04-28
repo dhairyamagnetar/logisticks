@@ -1,7 +1,7 @@
 create database logisticks;
 use logisticks;
 
-create table users(
+create table user(
     phoneNumber varchar(20) NOT NULL,
     name varchar(100) NOT NULL,
     addressId int NOT NULL,

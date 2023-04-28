@@ -52,7 +52,14 @@ const Login = (props) => {
                 </div>
                 <div className="switchbtn">
                     <button className="btn btn-dark m-2"
-                        onClick={props.switch}
+                        onClick={props.userTypeSwitcher}
+                    >
+                        <b>Switch to Agent</b>
+                    </button>
+                </div>
+                <div className="switchbtn">
+                    <button className="btn btn-dark m-2"
+                        onClick={props.authSwitcher}
                     >
                         <b>Sign Up Instead</b>
                     </button>

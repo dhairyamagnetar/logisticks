@@ -70,7 +70,7 @@ public class AgentDAOImpl implements AgentDAO{
         Order ord = new Order();
 
         try{
-            String sql = "select o.id, o.weight, o.isFragile, o.isExpressDelivery,r.receiverPhoneNumber, concat(a.houseNumber,' ',a.locality,',',l.district,' ',l.city,' ',l.state) as receiverAddress from orders o inner join tobereceivedby r on o.id = r.orderId inner join address a on a.id=o.id inner join location l on l.id=a.locationId";
+            String sql = "select o.id, o.weight, o.isFragile, o.isExpressDelivery,r.receiverPhoneNumber, concat(a.houseNumber,' ',a.locality,',',l.district,' ',l.city,' ',l.state) as receiverAddress from orders o inner join tobereceivedby r on o.id = r.orderId inner join address a on a.id=o.id inner join location l on l.id=a.locationId inner join orderstatus os on os.orderId=o.id where status!=1";
             orders = jdbcTemplate.query(sql, new BeanPropertyRowMapper<AgentAssignedOrder>(AgentAssignedOrder.class));
             return orders;
         }catch(Exception e){
@@ -143,7 +143,7 @@ public class AgentDAOImpl implements AgentDAO{
             res.setStatus(false);
             return res;
         }
-        res.setMessage("Made changes");
+        res.setMessage("Thank you for choosing Logisticks");
         res.setStatus(true);
         return res;
     }

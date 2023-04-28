@@ -44,6 +44,7 @@ public class OrderImpl implements OrderDAO{
     private orderStatusDAO osDAO;
 
     private boolean exists(String phoneNumber) {
+        System.out.println(phoneNumber);
         int found = 0;
         try{
             User user = jdbcTemplate.queryForObject("select * from user where phoneNumber=?",new Object[]{phoneNumber}, new BeanPropertyRowMapper<User>(User.class));
@@ -259,22 +260,22 @@ public class OrderImpl implements OrderDAO{
     public TrackingResponse getTrackingDetails(int orderId) {
         try{
             OrderStatus status = jdbcTemplate.queryForObject("select * from orderstatus where orderId = ?", new Object[]{orderId}, new BeanPropertyRowMapper<OrderStatus>(OrderStatus.class));
-
+            System.out.println(1);
             String sql = "select l.id as id, city, district, state from sentby s inner join user u on s.senderPhoneNumber = u.phoneNumber inner join address a on u.addressId = a.id inner join location l on a.locationId = l.id where s.orderId = ?";
             Location senderLocation = jdbcTemplate.queryForObject(sql, new Object[]{orderId}, new BeanPropertyRowMapper<Location>(Location.class));
-
+            System.out.println(2);
             sql = "select l.id as id, city, district, state from tobereceivedby s inner join user u on s.receiverPhoneNumber = u.phoneNumber inner join address a on u.addressId = a.id inner join location l on a.locationId = l.id where s.orderId = ?";
             Location receiverLocation = jdbcTemplate.queryForObject(sql, new Object[]{orderId}, new BeanPropertyRowMapper<Location>(Location.class));
-
+            System.out.println(3);
             sql = "select l.id as id, city, district, state from orderstatus s inner join location l on s.currentLocationId = l.id where s.orderId = ?";
             Location currentLocation = jdbcTemplate.queryForObject(sql, new Object[]{orderId}, new BeanPropertyRowMapper<Location>(Location.class));
-
+            System.out.println(4);
             sql = "select * from tobeReceivedBy where orderId = ?";
             ToBeReceivedBy receipt = jdbcTemplate.queryForObject(sql, new Object[]{orderId}, new BeanPropertyRowMapper<ToBeReceivedBy>(ToBeReceivedBy.class));
-
+            System.out.println(5);
             sql = "select phoneNumber, name, addressId, isAdmin, passwordHash, locationId, vehicleNumber, salary from tobedeliveredby d inner join agent a on d.agentPhoneNumber  = a.phoneNumber where d.orderId = ?";
             Agent deliveryAgent = jdbcTemplate.queryForObject(sql, new Object[]{orderId}, new BeanPropertyRowMapper<Agent>(Agent.class));
-
+            System.out.println(6);
             TrackingResponse ret = new TrackingResponse(
                     senderLocation.getCity(),
                     senderLocation.getDistrict(),
@@ -290,7 +291,7 @@ public class OrderImpl implements OrderDAO{
                     deliveryAgent.getPhoneNumber(),
                     deliveryAgent.getName()
             );
-            System.out.println(ret);
+            System.out.println(7);
             return ret;
         }catch(Exception e){
             System.out.println(e.getMessage());

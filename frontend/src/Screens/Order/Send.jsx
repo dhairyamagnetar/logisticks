@@ -16,7 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import axios from 'axios';
 import { Button } from '@mui/material';
 import { AuthContext } from '../../context/Auth';
-import tick from "../../../public/tick.png"
+import tick from "../../images/tick.png"
 import { ThemeProvider, createTheme } from '@mui/material';
 
 import { useState, useEffect, useContext } from 'react'

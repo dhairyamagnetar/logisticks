@@ -150,14 +150,16 @@ public class OrderImpl implements OrderDAO{
             ToBeReceivedBy toBeReceivedBy = new ToBeReceivedBy(order.getId(), "", receiverPhoneNumber, -1);
 
             String sql_rec = "insert into toBeReceivedBy(orderId, receiverPhoneNumber,receptionOTP) values (?, ?, ?)";
-
+            int otp = 0;
             try {
+                otp = (int)Math.floor((Math.random()*(9999-1000+1) + 1000));
+                int finalOtp = otp;
                 jdbcTemplate.update(con -> {
                     PreparedStatement stmt = con.prepareStatement(sql_rec);
                     stmt.setInt(1,order.getId());
                     stmt.setString(2, receiverPhoneNumber);
-                    int otp = (int)Math.floor((Math.random()*(9999-1000+1) + 1000));
-                    stmt.setInt(3,otp);
+
+                    stmt.setInt(3, finalOtp);
                     return stmt;
                 });
             } catch (Exception e) {
@@ -173,6 +175,27 @@ public class OrderImpl implements OrderDAO{
             respone.setMessage("Successfully placed the order!");
             respone.setPrice(rate);
             respone.setStatus(true);
+
+            try {
+                List<Agent> agent_list = jdbcTemplate.query("select * from agent",  new BeanPropertyRowMapper<Agent>(Agent.class));
+                int ind = (int)Math.random();
+                ind = ind%(agent_list.size());
+
+                String sql_agent = "insert into tobedeliveredby(orderId, agentPhoneNumber) values(?,?)";
+
+                int finalOtp1 = otp;
+                int finalInd = ind;
+                jdbcTemplate.update(con -> {
+                    PreparedStatement stmt = con.prepareStatement(sql_agent);
+                    stmt.setInt(1,order.getId());
+                    stmt.setString(2, (agent_list.get(finalInd)).getPhoneNumber());
+                    return stmt;
+                });
+
+
+            } catch (Exception e) {
+                System.out.println(e);
+            }
 
             try {
                 OrderStatus os = new OrderStatus(order.getId(), -1, OrderStatus.Status.PLACED);

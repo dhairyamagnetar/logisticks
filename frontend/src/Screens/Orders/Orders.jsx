@@ -64,7 +64,7 @@ const Orders = () => {
                 <b>Sent Orders</b>
             </div>
         </div>
-        <div className="orderdisplay d-flex flex-row justify-content-center">
+        <div className="orderdisplay d-flex flex-column justify-content-center">
             {
                 !rec ?
                     recvorders.map((e) => {

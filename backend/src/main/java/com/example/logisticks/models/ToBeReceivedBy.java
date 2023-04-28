@@ -16,6 +16,22 @@ public class ToBeReceivedBy {
     public ToBeReceivedBy() {
     }
 
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public void setTimeOfReceipt(String timeOfReceipt) {
+        this.timeOfReceipt = timeOfReceipt;
+    }
+
+    public void setReceiverPhoneNumber(String receiverPhoneNumber) {
+        this.receiverPhoneNumber = receiverPhoneNumber;
+    }
+
+    public void setReceptionOTP(int receptionOTP) {
+        this.receptionOTP = receptionOTP;
+    }
+
     public int getOrderId() {
         return orderId;
     }

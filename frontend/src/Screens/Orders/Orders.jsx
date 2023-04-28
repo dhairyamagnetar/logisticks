@@ -17,7 +17,7 @@ const Orders = () => {
         axios.request({
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://127.0.0.1:8080/order/sent/${authobj.phone_}`,
+            url: `http://127.0.0.1:8080/order/received/${authobj.phone_}`,
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -31,7 +31,7 @@ const Orders = () => {
         axios.request({
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://127.0.0.1:8080/order/received/${authobj.phone_}`,
+            url: `http://127.0.0.1:8080/order/sent/${authobj.phone_}`,
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -64,7 +64,7 @@ const Orders = () => {
                 <b>Sent Orders</b>
             </div>
         </div>
-        <div className="orderdisplay d-flex flex-row justify-content-center">
+        <div className="orderdisplay d-flex flex-column justify-content-center">
             {
                 !rec ?
                     recvorders.map((e) => {

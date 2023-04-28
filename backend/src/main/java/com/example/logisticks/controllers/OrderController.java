@@ -32,6 +32,7 @@ public class OrderController {
     @GetMapping("/order/track/{orderId}")
     public TrackingResponse getTrackingDetails(@PathVariable String orderId){
         TrackingResponse ret = oDAO.getTrackingDetails(Integer.parseInt(orderId));
+        System.out.println(ret);
         return ret;
     }
 }

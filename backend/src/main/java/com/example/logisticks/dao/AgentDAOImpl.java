@@ -109,7 +109,7 @@ public class AgentDAOImpl implements AgentDAO{
         }
         try {
                 count=jdbcTemplate.update(conn -> {
-                String sql = "update orderstatus set status=1 where orderId=(?)";
+                String sql = "update orderstatus set status=4 where orderId=(?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setInt(1, id);
                 return stmt;

@@ -258,45 +258,42 @@ public class OrderImpl implements OrderDAO{
 
     @Override
     public TrackingResponse getTrackingDetails(int orderId) {
+        TrackingResponse ret2 = new TrackingResponse();
         try{
             OrderStatus status = jdbcTemplate.queryForObject("select * from orderstatus where orderId = ?", new Object[]{orderId}, new BeanPropertyRowMapper<OrderStatus>(OrderStatus.class));
-            System.out.println(1);
+            ret2.setStatus(status.getStatus());
+
             String sql = "select l.id as id, city, district, state from sentby s inner join user u on s.senderPhoneNumber = u.phoneNumber inner join address a on u.addressId = a.id inner join location l on a.locationId = l.id where s.orderId = ?";
             Location senderLocation = jdbcTemplate.queryForObject(sql, new Object[]{orderId}, new BeanPropertyRowMapper<Location>(Location.class));
-            System.out.println(2);
+            ret2.setsCity(senderLocation.getCity());
+            ret2.setsDistrict(senderLocation.getDistrict());
+            ret2.setcState(senderLocation.getState());
+
             sql = "select l.id as id, city, district, state from tobereceivedby s inner join user u on s.receiverPhoneNumber = u.phoneNumber inner join address a on u.addressId = a.id inner join location l on a.locationId = l.id where s.orderId = ?";
             Location receiverLocation = jdbcTemplate.queryForObject(sql, new Object[]{orderId}, new BeanPropertyRowMapper<Location>(Location.class));
-            System.out.println(3);
+            ret2.setdCity(receiverLocation.getCity());
+            ret2.setdDistrict(receiverLocation.getDistrict());
+            ret2.setdState(receiverLocation.getState());
+
             sql = "select l.id as id, city, district, state from orderstatus s inner join location l on s.currentLocationId = l.id where s.orderId = ?";
             Location currentLocation = jdbcTemplate.queryForObject(sql, new Object[]{orderId}, new BeanPropertyRowMapper<Location>(Location.class));
-            System.out.println(4);
+            ret2.setcCity(currentLocation.getCity());
+            ret2.setcDistrict(currentLocation.getDistrict());
+            ret2.setcState(currentLocation.getState());
+
             sql = "select * from tobeReceivedBy where orderId = ?";
             ToBeReceivedBy receipt = jdbcTemplate.queryForObject(sql, new Object[]{orderId}, new BeanPropertyRowMapper<ToBeReceivedBy>(ToBeReceivedBy.class));
-            System.out.println(5);
+            ret2.setReceptionOTP(receipt.getReceptionOTP());
+
             sql = "select phoneNumber, name, addressId, isAdmin, passwordHash, locationId, vehicleNumber, salary from tobedeliveredby d inner join agent a on d.agentPhoneNumber  = a.phoneNumber where d.orderId = ?";
             Agent deliveryAgent = jdbcTemplate.queryForObject(sql, new Object[]{orderId}, new BeanPropertyRowMapper<Agent>(Agent.class));
-            System.out.println(6);
-            TrackingResponse ret = new TrackingResponse(
-                    senderLocation.getCity(),
-                    senderLocation.getDistrict(),
-                    senderLocation.getState(),
-                    receiverLocation.getCity(),
-                    receiverLocation.getDistrict(),
-                    receiverLocation.getState(),
-                    currentLocation.getCity(),
-                    currentLocation.getDistrict(),
-                    currentLocation.getState(),
-                    status.getStatus(),
-                    receipt.getReceptionOTP(),
-                    deliveryAgent.getPhoneNumber(),
-                    deliveryAgent.getName()
-            );
-            System.out.println(ret);
-            return ret;
+            ret2.setAgentName(deliveryAgent.getName());
+            ret2.setAgentPhoneNumber(deliveryAgent.getPhoneNumber());
+
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
-        return new TrackingResponse();
+        return ret2;
     }
 
 }

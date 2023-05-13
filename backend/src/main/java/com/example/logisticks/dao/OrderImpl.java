@@ -289,7 +289,6 @@ public class OrderImpl implements OrderDAO{
             Agent deliveryAgent = jdbcTemplate.queryForObject(sql, new Object[]{orderId}, new BeanPropertyRowMapper<Agent>(Agent.class));
             ret2.setAgentName(deliveryAgent.getName());
             ret2.setAgentPhoneNumber(deliveryAgent.getPhoneNumber());
-
         }catch(Exception e){
             System.out.println(e.getMessage());
         }

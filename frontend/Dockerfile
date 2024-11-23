@@ -1,12 +1,9 @@
 # Use Node.js for building and nginx for serving
-FROM node:18 AS build
-WORKDIR /app
-COPY package*.json ./
+FROM node:18-alpine AS build
+WORKDIR /frontend
+COPY package.json ./
 RUN npm install
 COPY . .
 RUN npm run build
-
-FROM nginx:alpine
-COPY --from=build /app/build /usr/share/nginx/html
 EXPOSE 5173
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "start"]

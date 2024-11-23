@@ -1,5 +1,5 @@
 - name: Deploy Logisticks Backend and Frontend
-  hosts: any
+  hosts: all
   become: yes  # Ensure privileged access for Docker operations
   tasks:
     - name: Remove old backend container

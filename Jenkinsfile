@@ -11,7 +11,7 @@ pipeline {
         stage('Build Backend') {
             steps {
                 dir('backend') {
-                    sh '/var/lib/jenkins/.sdkman/candidates/gradle/8.11.1/bin/gradle clean build'
+                    sh 'gradle clean build'
                 }
             }
         }

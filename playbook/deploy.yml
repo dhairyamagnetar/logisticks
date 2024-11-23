@@ -1,13 +1,35 @@
-- name: Deploy Logisticks App
-  hosts: all
-  become: yes  # Ensures privileged access if needed for Docker commands
+- name: Deploy Logisticks Backend and Frontend
+  hosts: any
+  become: yes  # Ensure privileged access for Docker operations
   tasks:
-    - name: Pull Docker Images
-      docker_compose:
-        project_src: ../
-        pull: yes
+    - name: Remove old backend container
+      docker_container:
+        name: logisticks-backend
+        state: absent
+        force_kill: yes
 
-    - name: Deploy Containers
-      docker_compose:
-        project_src: ../
-        state: present
+    - name: Deploy Backend Service
+      docker_container:
+        name: logisticks-backend
+        image: keshavchandak/logisticks-backend
+        state: started
+        ports:
+          - "8088:8088"  # Map backend service to host
+        restart_policy: always
+        detach: yes
+
+    - name: Remove old frontend container
+      docker_container:
+        name: logisticks-frontend
+        state: absent
+        force_kill: yes
+
+    - name: Deploy Frontend Service
+      docker_container:
+        name: logisticks-frontend
+        image: keshavchandak/logisticks-frontend
+        state: started
+        ports:
+          - "5173:5173"  # Map frontend service to host
+        restart_policy: always
+        detach: yes

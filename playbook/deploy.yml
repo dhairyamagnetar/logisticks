@@ -1,0 +1,18 @@
+- name: Deploy Calculator App
+
+  hosts: all
+
+  tasks:
+
+    - name: Pull Docker Images
+      shell: docker-compose pull
+
+    - name: Deploy Containers
+      shell: docker-compose up -d
+
+        - name: Deploy Logisticks App
+      docker_compose:
+        project_src: ../
+        state: present
+
+

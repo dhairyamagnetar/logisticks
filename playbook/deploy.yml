@@ -1,18 +1,13 @@
-- name: Deploy Calculator App
-
+- name: Deploy Logisticks App
   hosts: all
-
+  become: yes  # Ensures privileged access if needed for Docker commands
   tasks:
-
     - name: Pull Docker Images
-      shell: docker-compose pull
+      docker_compose:
+        project_src: ../
+        pull: yes
 
     - name: Deploy Containers
-      shell: docker-compose up -d
-
-        - name: Deploy Logisticks App
       docker_compose:
         project_src: ../
         state: present
-
-

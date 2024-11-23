@@ -5,13 +5,14 @@ pipeline {
         BACKEND_IMAGE = 'keshavchandak/logisticks-backend'
         FRONTEND_IMAGE = 'keshavchandak/logisticks-frontend'
         DOCKER_TAG = 'latest'
+        PATH="/var/lib/jenkins/.sdkman/candidates/gradle/8.11.1/bin:$PATH"
     }
 
     stages {
         stage('Build Backend') {
             steps {
                 dir('backend') {
-                    sh '/var/lib/jenkins/.sdkman/candidates/gradle/8.11.1/bin/gradle clean build'
+                    sh 'gradle clean build'
                 }
             }
         }

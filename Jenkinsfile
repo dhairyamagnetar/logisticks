@@ -31,13 +31,13 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    // Push backend image
-                    sh "docker tag ${BACKEND_IMAGE}:latest ${BACKEND_IMAGE}:${DOCKER_TAG}"
-                    sh "docker push ${BACKEND_IMAGE}:${DOCKER_TAG}"
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerHubCredentials') {
+                        // Push backend image
+                        docker.image("${BACKEND_IMAGE}:${DOCKER_TAG}").push()
 
-                    // Push frontend image
-                    sh "docker tag ${FRONTEND_IMAGE}:latest ${FRONTEND_IMAGE}:${DOCKER_TAG}"
-                    sh "docker push ${FRONTEND_IMAGE}:${DOCKER_TAG}"
+                        // Push frontend image
+                        docker.image("${FRONTEND_IMAGE}:${DOCKER_TAG}").push()
+                    }
                 }
             }
         }

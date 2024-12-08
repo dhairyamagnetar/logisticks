@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: ${FRONTEND_IMAGE}:latest
+        image: keshavchandak/logisticks-frontend:latest
         ports:
         - containerPort: 5173
 ---
@@ -27,6 +27,6 @@ spec:
     app: frontend
   ports:
   - protocol: TCP
-    port: 5173  
+    port: 5173
     targetPort: 5173
-  type: NodePort
+  # type: NodePort

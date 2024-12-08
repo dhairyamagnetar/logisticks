@@ -1,29 +1,5 @@
 version: '3.8'
 services:
-  backend:
-    build:
-      context: ./backend
-    image: ${BACKEND_IMAGE}
-    ports:
-      - "8088:8088"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/logisticks
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: KeshavC@2003
-    depends_on:
-      - mysql
-    networks:
-      - app-network
-
-  frontend:
-    build:
-      context: ./frontend
-    image: ${FRONTEND_IMAGE}
-    ports:
-      - "5173:5173"
-    networks:
-      - app-network
-
   mysql:
     image: mysql:8.0
     container_name: mysql
@@ -37,9 +13,83 @@ services:
     networks:
       - app-network
 
+  backend:
+    build:
+      context: ./backend
+    image: ${BACKEND_IMAGE}
+    ports:
+      - "8088:8088"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/logisticks
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: KeshavC@2003
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    depends_on:
+      - mysql
+      - logstash
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+    image: ${FRONTEND_IMAGE}
+    ports:
+      - "4173:4173"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    depends_on:
+      - logstash
+    networks:
+      - app-network
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.10.0
+    container_name: logstash
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+    networks:
+      - app-network
+    depends_on:
+      - elasticsearch
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+    container_name: elasticsearch
+    environment:
+      discovery.type: single-node
+    ports:
+      - "9201:9200"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    networks:
+      - app-network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.10.0
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
 
 volumes:
   mysql_data:
+  es_data:

@@ -16,7 +16,7 @@ const Assigned = () => {
         axios.request({
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://backend.local:8088/agent/viewAssignedOrders`,
+            url: `http://backend-service:8088/agent/viewAssignedOrders`,
             headers: {
                 'Content-Type': 'application/json',
             }

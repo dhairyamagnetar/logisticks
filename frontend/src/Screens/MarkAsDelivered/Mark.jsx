@@ -19,7 +19,7 @@ const Mark = (props) => {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `http://backend.local:8088/agent/markasdelivered`,
+            url: `http://backend-service:8088/agent/markasdelivered`,
             headers: {
                 'Content-Type': 'application/json',
             },

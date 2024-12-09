@@ -1,6 +1,10 @@
 - name: Deploy Logisticks Backend and Frontend
   hosts: all
   become: yes  # Ensure privileged access for Docker operations
+  vars:
+    backend_deployment_file: "backend.yml"
+    frontend_deployment_file: "frontend.yml"
+    mysql_deployment_file: "mysql-deployment.yml"
   tasks:
     - name: Remove old backend container
       docker_container:
@@ -33,3 +37,16 @@
           - "5173:5173"  # Map frontend service to host
         restart_policy: always
         detach: yes
+    - name: Apply MySQL Deployment
+      kubernetes.core.k8s:
+        definition: "{{ lookup('file', mysql_deployment_file) }}"
+
+    - name: Apply Backend Deployment and Service
+      kubernetes.core.k8s:
+        definition: "{{ lookup('file', backend_deployment_file) }}"
+
+    - name: Apply Frontend Deployment and Service
+      kubernetes.core.k8s:
+        definition: "{{ lookup('file', frontend_deployment_file) }}"
+
+  

@@ -26,7 +26,7 @@ const Signup = (props) => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://backend.local:8088`+'/location',
+            url: `http://backend-service:8088`+'/location',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -59,7 +59,7 @@ const Signup = (props) => {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'http://backend.local:8088/auth/signup',
+            url: 'http://backend-service:8088/auth/signup',
             headers: {
                 'Content-Type': 'application/json',
             },

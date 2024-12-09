@@ -2,9 +2,9 @@
   hosts: all
   become: yes  # Ensure privileged access for Docker operations
   vars:
-    backend_deployment_file: "backend.yml"
-    frontend_deployment_file: "frontend.yml"
-    mysql_deployment_file: "mysql-deployment.yml"
+    backend_deployment_file: "k8s/backend.yml"
+    frontend_deployment_file: "k8s/frontend.yml"
+    mysql_deployment_file: "k8s/mysql-deployment.yml"
   tasks:
     - name: Remove old backend container
       docker_container:

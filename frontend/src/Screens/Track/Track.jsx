@@ -14,7 +14,7 @@ const Track = () => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://127.0.0.1:8088/order/track/` + orderId,
+            url: `http://backend-service:8088/order/track/` + orderId,
             headers: {
                 'Content-Type': 'application/json',
             },

@@ -64,7 +64,7 @@ const Rate = () => {
             axios.request({
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: `http://127.0.0.1:8088/user/${authobj.phone_}`,
+                url: `http://backend-service:8088/user/${authobj.phone_}`,
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -83,7 +83,7 @@ const Rate = () => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'http://127.0.0.1:8088/location',
+            url: 'http://backend-service:8088/location',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -108,7 +108,7 @@ const Rate = () => {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'http://127.0.0.1:8088/order/placeorder',
+            url: 'http://backend-service:8088/order/placeorder',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -130,7 +130,7 @@ const Rate = () => {
         // console.log("ID", id);
 
 
-        axios.post('http://127.0.0.1:8088/rate/calculate', {
+        axios.post('http://backend-service:8088/rate/calculate', {
             "weight": weight,
             "isFragile": isfragile,
             "isExpressDelivery": isExpress,
@@ -212,7 +212,7 @@ const Rate = () => {
             }
         }
 
-        axios.post('http://127.0.0.1:8088/order/placeorder', {
+        axios.post('http://backend-service:8088/order/placeorder', {
             "weight": weight,
             "isFragile": isfragile,
             "isExpressDelivery": isExpress,

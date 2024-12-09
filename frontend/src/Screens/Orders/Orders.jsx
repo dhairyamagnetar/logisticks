@@ -17,7 +17,7 @@ const Orders = () => {
         axios.request({
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://backend-service:8088/order/received/${authobj.phone_}`,
+            url: `http://backend.local:8088/order/received/${authobj.phone_}`,
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -31,7 +31,7 @@ const Orders = () => {
         axios.request({
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://backend-service:8088/order/sent/${authobj.phone_}`,
+            url: `http://backend.local:8088/order/sent/${authobj.phone_}`,
             headers: {
                 'Content-Type': 'application/json',
             }

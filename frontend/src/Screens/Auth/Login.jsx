@@ -20,7 +20,7 @@ const Login = (props) => {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `http://backend-service:8088/` + 'auth/signin',
+            url: `http://backend.local:8088/` + 'auth/signin',
             headers: {
                 'Content-Type': 'application/json',
             },

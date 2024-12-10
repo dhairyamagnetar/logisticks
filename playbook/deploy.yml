@@ -5,8 +5,13 @@
     backend_deployment_file: "../k8s/backend.yml"
     frontend_deployment_file: "../k8s/frontend.yml"
     mysql_deployment_file: "../k8s/mysql-deployment.yml"
-    ansible_python_interpreter: "../ansible-env/bin/python"
+    ansible_python_interpreter: "/usr/bin/python"
   tasks:
+    - name: "Installing kubernetes package"
+        ansible.builtin.pip:
+        name: kubernetes
+        extra_args: --break-system-packages
+        
     - name: Remove old backend container
       docker_container:
         name: logisticks-backend
@@ -38,17 +43,31 @@
           - "5173:5173"  # Map frontend service to host
         restart_policy: always
         detach: yes
-        
+      
+    - name: pause for 30 seconds and let DB initialize
+      pause:
+        seconds: 30
+      
     - name: Apply MySQL Deployment
-      kubernetes.core.k8s:
-        definition: "{{ lookup('file', mysql_deployment_file) }}"
+      k8s:
+        state: present
+        namespace: default
+        src: mysql_deployment_file
+      
+    - name: pause for 30 seconds and let DB initialize
+      pause:
+        seconds: 30
 
     - name: Apply Backend Deployment and Service
-      kubernetes.core.k8s:
-        definition: "{{ lookup('file', backend_deployment_file) }}"
+      k8s:
+        state: present
+        namespace: default
+        src: backend_deployment_file
 
     - name: Apply Frontend Deployment and Service
-      kubernetes.core.k8s:
-        definition: "{{ lookup('file', frontend_deployment_file) }}"
+      k8s:
+        state: present
+        namespace: default
+        src: frontend_deployment_file
 
   

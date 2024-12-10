@@ -37,6 +37,7 @@
           - "5173:5173"  # Map frontend service to host
         restart_policy: always
         detach: yes
+        
     - name: Apply MySQL Deployment
       kubernetes.core.k8s:
         definition: "{{ lookup('file', mysql_deployment_file) }}"

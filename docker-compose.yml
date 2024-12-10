@@ -38,7 +38,7 @@ services:
       context: ./frontend
     image: ${FRONTEND_IMAGE}
     ports:
-      - "4173:4173"
+      - "5174:5173"
     logging:
       driver: "json-file"
       options:

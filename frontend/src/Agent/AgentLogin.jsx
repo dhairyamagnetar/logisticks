@@ -20,7 +20,7 @@ const AgentLogin = (props) => {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'http://backend-service:8088/agent/signin',
+            url: 'http://192.168.49.2:31755/agent/signin',
             headers: {
                 'Content-Type': 'application/json',
             },

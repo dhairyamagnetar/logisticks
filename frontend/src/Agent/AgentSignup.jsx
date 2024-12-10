@@ -26,7 +26,7 @@ const AgentSignup = (props) => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'http://backend-service:8088/location',
+            url: 'http://192.168.49.2:31755/location',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -59,7 +59,7 @@ const AgentSignup = (props) => {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'http://backend-service:8088/agent/signup',
+            url: 'http://192.168.49.2:31755/agent/signup',
             headers: {
                 'Content-Type': 'application/json',
             },

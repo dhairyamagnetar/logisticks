@@ -25,7 +25,7 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
   let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `http://backend-service:8088/agent/markasdelivered`,
+      url: `http://192.168.49.2:31755/agent/markasdelivered`,
       headers: {
           'Content-Type': 'application/json',
       },

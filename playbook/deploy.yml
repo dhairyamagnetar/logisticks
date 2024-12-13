@@ -8,7 +8,7 @@
     ansible_python_interpreter: "/usr/bin/python"
   tasks:
     - name: "Installing kubernetes package"
-        ansible.builtin.pip:
+      ansible.builtin.pip:
         name: kubernetes
         extra_args: --break-system-packages
         

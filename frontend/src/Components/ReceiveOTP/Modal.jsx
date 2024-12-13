@@ -25,7 +25,7 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
   let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `http://192.168.49.2:31755/agent/markasdelivered`,
+      url: `http://127.0.0.1:30008/agent/markasdelivered`,
       headers: {
           'Content-Type': 'application/json',
       },

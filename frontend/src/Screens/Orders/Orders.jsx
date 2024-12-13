@@ -17,7 +17,7 @@ const Orders = () => {
         axios.request({
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://192.168.49.2:31755/order/received/${authobj.phone_}`,
+            url: `http://127.0.0.1:30008/order/received/${authobj.phone_}`,
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -31,7 +31,7 @@ const Orders = () => {
         axios.request({
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://192.168.49.2:31755/order/sent/${authobj.phone_}`,
+            url: `http://127.0.0.1:30008/order/sent/${authobj.phone_}`,
             headers: {
                 'Content-Type': 'application/json',
             }

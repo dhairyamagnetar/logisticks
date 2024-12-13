@@ -16,7 +16,7 @@ const Assigned = () => {
         axios.request({
             method: 'get',
             maxBodyLength: Infinity,
-            url: `http://192.168.49.2:31755/agent/viewAssignedOrders`,
+            url: `http://127.0.0.1:30008/agent/viewAssignedOrders`,
             headers: {
                 'Content-Type': 'application/json',
             }

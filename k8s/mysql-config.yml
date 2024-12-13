@@ -2,5 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mysql-config
+  labels:
+    app: mysql
 data:
-  MYSQL_DATABASE: logisticks
+  MYSQL_DATABASE: "logisticks"

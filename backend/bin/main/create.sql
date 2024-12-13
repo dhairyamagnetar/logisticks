@@ -100,13 +100,13 @@ foreign key (orderId) references orders(id);
 
 alter table toBeReceivedBy
 add constraint FK_toBeReceivedBy_receiverPhoneNumber
-foreign key (receiverPhoneNumber) references users(phoneNumber);
+foreign key (receiverPhoneNumber) references user(phoneNumber);
 
 alter table address
 add constraint FK_AddressLocation
 foreign key(locationId) references location(id);
 
-alter table users
+alter table user
 add constraint FK_UserAddress
 foreign key(addressId) references address(id);
 
@@ -124,7 +124,7 @@ foreign key (orderId) references orders(id);
 
 alter table sentBy
 add constraint FK_sentBy_senderPhoneNumber
-foreign key (senderPhoneNumber) references users(phoneNumber);
+foreign key (senderPhoneNumber) references user(phoneNumber);
 
 alter table agent
 add constraint FK_AgentAddress
@@ -134,11 +134,6 @@ alter table agent
 add constraint FK_AgentLocation
 foreign key(locationId) references location(id);
 
-insert into location(district, city, state) values ('East Singhbhum', 'Jamshedpur', 'Jharkhand'), ('Muzaffarpur', 'Muzaffarpur', 'Bihar'), ('
-Kolkata', 'Kolkata', 'West Bengal');
+insert into location(district, city, state) values ('East Singhbhum', 'Jamshedpur', 'Jharkhand'), ('Muzaffarpur', 'Muzaffarpur', 'Bihar'), ('Kolkata', 'Kolkata', 'West Bengal');
 
---insert into orders(id, deliveryRate, weight, isFragile, isExpressDelivery) values (1 ,50.26, 2, 0, 0), (2, 45.59, 6, 0, 1), (3, 15.85, 18.56, 1, 1);
---
---insert into orderStatus(currentLocationId, status) values (2, 0), (1, 1), (3, 0);
---
---insert into sentBy(senderPhoneNumber, orderId, orderTime) values ('1234567890', 2, '2020-01-01 15:10:10');
+insert into rate values (1, 2, 8), (1, 3, 7), (2, 1, 8), (3, 1, 7), (2, 3, 10), (3, 2, 10);

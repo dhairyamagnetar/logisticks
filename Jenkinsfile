@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        BACKEND_IMAGE = 'keshavchandak/logisticks-backend'
-        FRONTEND_IMAGE = 'keshavchandak/logisticks-frontend'
+        BACKEND_IMAGE = 'dhairyamagnetar/logisticks-backend'
+        FRONTEND_IMAGE = 'dhairyamagnetar/logisticks-frontend'
         DOCKER_TAG = 'latest'
         PATH="/var/lib/jenkins/.sdkman/candidates/gradle/8.11.1/bin:$PATH"
         K8S_AUTH_KUBECONFIG="~/.kube/config"

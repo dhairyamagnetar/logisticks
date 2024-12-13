@@ -21,7 +21,7 @@
     - name: Deploy Backend Service
       docker_container:
         name: logisticks-backend
-        image: keshavchandak/logisticks-backend
+        image: dhairyamagnetar/logisticks-backend
         state: started
         ports:
           - "8088:8088"  # Map backend service to host
@@ -37,7 +37,7 @@
     - name: Deploy Frontend Service
       docker_container:
         name: logisticks-frontend
-        image: keshavchandak/logisticks-frontend
+        image: dhairyamagnetar/logisticks-frontend
         state: started
         ports:
           - "5173:5173"  # Map frontend service to host

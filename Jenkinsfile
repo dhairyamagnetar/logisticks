@@ -49,6 +49,7 @@ pipeline {
                     installation: 'Ansible',
                     inventory: 'inventory.ini',
                     playbook: 'deploy.yml',
+                    extras: '--vault-password-file=/path/to/vault_password_file'
                 )
             }
         }

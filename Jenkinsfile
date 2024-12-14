@@ -46,7 +46,7 @@ pipeline {
         stage("Deploy via ansible") {
             steps {
                 sh '''
-                    ansible-playbook deploy.yml -i inventory.ini --vault-password-file=${VAULT_PASSWORD_FILE}
+                    ansible-playbook playbook/deploy.yml -i inventory/inventory.ini
                 '''
             }
         }

@@ -45,13 +45,9 @@ pipeline {
         }
         stage("Deploy via ansible") {
             steps {
-                sh 'chmod 600 ${VAULT_PASSWORD_FILE}'
-                ansiblePlaybook(
-                    installation: 'Ansible',
-                    inventory: 'inventory.ini',
-                    playbook: 'deploy.yml',
-                    extras: '--vault-password-file=${VAULT_PASSWORD_FILE}'
-                )
+                sh '''
+                    ansible-playbook deploy.yml -i inventory.ini --vault-password-file=${VAULT_PASSWORD_FILE}
+                '''
             }
         }
     }

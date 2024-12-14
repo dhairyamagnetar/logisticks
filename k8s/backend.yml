@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: dhairyamagnetar/logisticks-backend:latest
+        image: ${BACKEND_IMAGE}
         ports:
         - containerPort: 8088
 ---

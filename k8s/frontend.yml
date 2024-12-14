@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: dhairyamagnetar/logisticks-frontend:latest
+        image: ${FRONTEND_IMAGE}
         ports:
         - containerPort: 5173
 ---

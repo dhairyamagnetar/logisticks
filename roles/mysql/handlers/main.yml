@@ -1,0 +1,5 @@
+---
+- name: restart mysql service
+  docker_container:
+    name: logisticks-mysql
+    state: started

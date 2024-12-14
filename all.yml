@@ -1,0 +1,2 @@
+mysql_password: "{{ lookup('vault', 'secrets.mysql_password') }}"
+ansible_password: "{{ lookup('vault', 'secrets.ansible_password') }}"

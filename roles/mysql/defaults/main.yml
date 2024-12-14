@@ -1,0 +1,4 @@
+---
+mysql_image: mysql:8.0
+mysql_ports:
+  - "3306:3306"

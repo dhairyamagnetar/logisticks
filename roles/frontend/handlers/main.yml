@@ -1,0 +1,5 @@
+---
+- name: restart frontend service
+  docker_container:
+    name: logisticks-frontend
+    state: started

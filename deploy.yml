@@ -1,0 +1,10 @@
+- name: Deploy Logisticks Backend and Frontend
+  hosts: localhost
+  # become: yes
+  vars_files:
+    - secrets.yml  # Load the vault to access sensitive data
+
+  roles:
+    - backend
+    - frontend
+    - mysql

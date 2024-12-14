@@ -1,0 +1,4 @@
+---
+frontend_image: dhairyamagnetar/logisticks-frontend
+frontend_ports:
+  - "5173:5173"

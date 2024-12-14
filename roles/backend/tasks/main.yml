@@ -1,0 +1,17 @@
+---
+- name: Remove old backend container
+  docker_container:
+    name: logisticks-backend
+    state: absent
+    force_kill: yes
+
+- name: Deploy Backend Service
+  docker_container:
+    name: logisticks-backend
+    image: dhairyamagnetar/logisticks-backend
+    state: started
+    ports:
+      - "8088:8088"
+    restart_policy: always
+    detach: yes
+  notify: restart backend service

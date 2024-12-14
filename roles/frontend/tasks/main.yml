@@ -1,0 +1,17 @@
+---
+- name: Remove old frontend container
+  docker_container:
+    name: logisticks-frontend
+    state: absent
+    force_kill: yes
+
+- name: Deploy Frontend Service
+  docker_container:
+    name: logisticks-frontend
+    image: dhairyamagnetar/logisticks-frontend
+    state: started
+    ports:
+      - "5173:5173"
+    restart_policy: always
+    detach: yes
+  notify: restart frontend service

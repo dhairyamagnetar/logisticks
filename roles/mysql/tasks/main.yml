@@ -1,0 +1,19 @@
+---
+- name: Remove old MySQL container
+  docker_container:
+    name: logisticks-mysql
+    state: absent
+    force_kill: yes
+
+- name: Deploy MySQL Service
+  docker_container:
+    name: logisticks-mysql
+    image: mysql:8.0
+    state: started
+    env:
+      MYSQL_ROOT_PASSWORD: "{{ mysql_password }}"
+    ports:
+      - "3307:3306"
+    restart_policy: always
+    detach: yes
+  notify: restart mysql service

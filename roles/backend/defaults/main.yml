@@ -1,0 +1,4 @@
+---
+backend_image: dhairyamagnetar/logisticks-backend
+backend_ports:
+  - "8088:8088"
